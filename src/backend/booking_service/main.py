@@ -11,4 +11,4 @@ if __name__ == "__main__":
         format='%(asctime)s %(levelname)s (%(threadName)s)[%(filename)s:%(funcName)s:%(lineno)d] %(message)s',
         level=logging.getLevelName(LOGLEVEL))
     requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-    uvicorn.run("booking_service:app", host="0.0.0.0", port=8086, reload=False)
+    uvicorn.run("booking_service:app", host="0.0.0.0", port=8086, reload=False, access_log=False)

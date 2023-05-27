@@ -484,7 +484,7 @@ def create_platform_model(db: Session, platform: PlatformModel, authorization: s
             response = requests.get(API_GATEWAY_URL + "/attributes/platform/" + platform.id + "/open")
         if response.status_code == 200:
             json = response.json()
-            logging.info("htone-attributes.SUCCESS: {}".format(json))
+            logging.debug("htone-attributes.SUCCESS: {}".format(json))
             for element in json:
                 attributes.append({"name": element["name"], "value": element["value"]})
         else:

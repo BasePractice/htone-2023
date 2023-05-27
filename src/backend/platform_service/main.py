@@ -16,4 +16,4 @@ if __name__ == "__main__":
     requests_log.setLevel(logging.DEBUG)
     requests_log.propagate = True
 
-    uvicorn.run("platform_service:app", host="0.0.0.0", port=8085, reload=False, log_level="info")
+    uvicorn.run("platform_service:app", host="0.0.0.0", port=8085, reload=False, access_log=False)

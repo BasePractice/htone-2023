@@ -104,8 +104,8 @@ async def get_items(platform_id: str,
         date_de = date_db + timedelta(days=30)
     else:
         date_de = date.fromisoformat(date_end)
-    logging.info("RANGE : {} - {})".format(date_db.strftime('%Y-%m-%d'), date_de.strftime('%Y-%m-%d')))
-    logging.info("ORIGIN: {} - {})".format(date_begin, date_end))
+    logging.debug("RANGE : {} - {})".format(date_db.strftime('%Y-%m-%d'), date_de.strftime('%Y-%m-%d')))
+    logging.debug("ORIGIN: {} - {})".format(date_begin, date_end))
     resource_roles = resource_access(x_resource_roles, authorization)
     items = []
     with Session() as db:
@@ -140,7 +140,6 @@ async def delete_items_group(id: str,
                     .filter(BookingGroupItemModel.group_id == group.id).all()
                 db.query(BookingGroupItemModel) \
                     .filter(BookingGroupItemModel.group_id == group.id).delete()
-                logging.warning("Items: {}".format(len(items)))
                 if items is not None and len(items) > 0:
                     for item in items:
                         db.query(BookingItemAdditionalServiceModel) \
@@ -150,7 +149,6 @@ async def delete_items_group(id: str,
             db.flush()
             db.commit()
         except Exception as ex:
-            logging.error("Ex: {}".format(ex))
             db.rollback()
             raise ex
 
@@ -198,7 +196,6 @@ async def create_items(model: ApiBookingGroupModel,
                 db.flush()
             db.commit()
         except Exception as ex:
-            logging.error("Ex: {}".format(ex))
             db.rollback()
             raise ex
     return {"items": items, "group_id": group_id}
