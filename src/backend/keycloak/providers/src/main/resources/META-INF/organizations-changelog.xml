@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="viruszold@gmail.com" id="research.organizations-1.0">
+        <createTable tableName="research_organizations">
+            <column name="id" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(2048)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="creator" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey
+                constraintName="pk_research_organizations"
+                tableName="research_organizations"
+                columnNames="id"
+        />
+        <addForeignKeyConstraint baseTableName="research_organizations" baseColumnNames="creator"
+                                 constraintName="fk_research_organizations_creator"
+                                 referencedTableName="user_entity"
+                                 referencedColumnNames="id"/>
+
+        <createTable tableName="research_organization_users">
+            <column name="id" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organization_id" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="creator" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey
+                constraintName="pk_research_organization_users"
+                tableName="research_organization_users"
+                columnNames="id"
+        />
+        <addForeignKeyConstraint baseTableName="research_organization_users" baseColumnNames="organization_id"
+                                 constraintName="fk_research_organization_users_organization_id"
+                                 referencedTableName="research_organizations"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="research_organization_users" baseColumnNames="user_id"
+                                 constraintName="fk_research_organization_users_user_id"
+                                 referencedTableName="user_entity"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="research_organization_users" baseColumnNames="creator"
+                                 constraintName="fk_research_organization_users_creator"
+                                 referencedTableName="user_entity"
+                                 referencedColumnNames="id"/>
+
+        <createTable tableName="research_organization_roles">
+            <column name="id" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(1024)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="creator" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey
+                constraintName="pk_research_organization_roles"
+                tableName="research_organization_roles"
+                columnNames="id"
+        />
+        <addForeignKeyConstraint baseTableName="research_organization_roles" baseColumnNames="creator"
+                                 constraintName="fk_research_organization_roles_creator"
+                                 referencedTableName="user_entity"
+                                 referencedColumnNames="id"/>
+
+        <createTable tableName="research_organization_user_roles">
+            <column name="id" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organization_users_id" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organization_roles_id" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="creator" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey
+                constraintName="pk_research_organization_user_roles"
+                tableName="research_organization_user_roles"
+                columnNames="id"
+        />
+        <addForeignKeyConstraint baseTableName="research_organization_user_roles" baseColumnNames="organization_users_id"
+                                 constraintName="fk_research_organization_user_roles_organization_users_id"
+                                 referencedTableName="research_organization_users"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="research_organization_user_roles" baseColumnNames="organization_roles_id"
+                                 constraintName="fk_research_organization_user_roles_organization_roles_id"
+                                 referencedTableName="research_organization_roles"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="research_organization_user_roles" baseColumnNames="creator"
+                                 constraintName="fk_research_organization_user_roles_creator"
+                                 referencedTableName="user_entity"
+                                 referencedColumnNames="id"/>
+
+        <createTable tableName="research_organization_attributes">
+            <column name="id" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organization_id" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="key" type="VARCHAR(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="VARCHAR(2048)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(2048)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="creator" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey
+                constraintName="pk_research_organization_attributes"
+                tableName="research_organization_attributes"
+                columnNames="id"
+        />
+        <addForeignKeyConstraint baseTableName="research_organization_attributes" baseColumnNames="organization_id"
+                                 constraintName="fk_research_organization_attributes_organization_id"
+                                 referencedTableName="research_organizations"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="research_organization_attributes" baseColumnNames="creator"
+                                 constraintName="fk_research_organization_attributes_creator"
+                                 referencedTableName="user_entity"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

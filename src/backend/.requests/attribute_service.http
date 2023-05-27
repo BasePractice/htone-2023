@@ -1,0 +1,183 @@
+### Создание организации
+POST {{gateway_url}}/companies
+Authorization: Bearer {{landlord-access_token}}
+Content-Type: application/json;charset=utf-8
+
+{
+  "name": "Рога и копыта",
+  "inn": "00000000000",
+  "ogrn": "00000000000",
+  "legal_address": "г. Кострома, ул.Советская, д. 2/1",
+  "postal_address": "156000, г. Кострома, ул.Советская, д. 2/1",
+  "director": "Вареников Михаил Пафнутьевич"
+}
+
+> {%
+    client.global.set("company_id", response.body.id);
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Подтверждение компании
+PUT {{gateway_url}}/companies/verify/{{company_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Создание платформы
+POST {{gateway_url}}/platforms
+Authorization: Bearer {{landlord-access_token}}
+Content-Type: application/json;charset=utf-8
+
+{
+  "name": "Artplay",
+  "description": "Творческий и деловой квартал, где открыты мастерские, дизайнерские и архитектурные бюро, шоу-румы, магазины, а также организована инфраструктура для комфортного времяпрепровождения: кафе и рестораны, кинозал, клуб, книжный магазин.",
+  "address": "ул. Нижняя Сыромятническая, д. 10",
+  "working": "10:00–21:00",
+  "phone": "+7 (495) 620-08-83",
+  "email": "ic@artplay.ru",
+  "url": "https://www.artplay.ru/",
+  "category": "Unknown",
+  "company_id": "{{company_id}}"
+}
+
+
+> {%
+    client.global.set("platform_id", response.body.id);
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Подтверждение платформы
+PUT {{gateway_url}}/platforms/verify/{{platform_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение информации о платформе
+GET {{gateway_url}}/platforms/{{platform_id}}
+Authorization: Bearer {{landlord-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Добавление атрибутов
+POST {{gateway_url}}/attributes/platform/{{platform_id}}
+Authorization: Bearer {{landlord-access_token}}
+Content-Type: application/json;charset=utf-8
+
+[
+  {
+    "name": "Категория",
+    "value": "Выставочный зал"
+  },
+  {
+    "name": "Категория",
+    "value": "Рендеринг студия"
+  },
+  {
+    "name": "Категория",
+    "value": "Концертная площадка"
+  },
+  {
+    "name": "рога"
+  },
+  {
+    "name": "копыта"
+  }
+]
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Получение информации о платформе
+GET {{gateway_url}}/platforms/{{platform_id}}
+Authorization: Bearer {{tonant-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение списка плаформ (TONANT). Все активные и верифицированные
+GET {{gateway_url}}/platforms/role/ROLE_TENANT
+Authorization: Bearer {{tonant-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение списка платформ по значению атрибута
+GET {{gateway_url}}/attributes/search/platforms?text=студия&limit=5
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение списка платформ по значению атрибута
+GET {{gateway_url}}/attributes/search/platforms?text=КоПыТа&limit=5
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение списка атрибутов
+GET {{gateway_url}}/open/attributes/platform/{{platform_id}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Удаление атрибутов
+DELETE {{gateway_url}}/attributes/platform/{{platform_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Удаление платформы
+DELETE {{gateway_url}}/platforms/{{platform_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Удаление компанию
+DELETE {{gateway_url}}/companies/{{company_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}

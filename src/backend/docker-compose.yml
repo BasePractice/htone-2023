@@ -1,0 +1,250 @@
+version: "3"
+services:
+  gateway:
+    # The :watch image restarts the service automatically when the configuration files change.
+    # Do not use this image in production, it's meant to speed up your testing and development.
+    image: devopsfaith/krakend:watch
+    environment:
+      - FC_ENABLE=1
+      - FC_TEMPLATES=/etc/krakend/templates
+      - FC_SETTINGS=/etc/krakend/settings
+      - FC_PARTIALS=/etc/krakend/partials
+      - FC_OUT=/etc/krakend/krakend.compiled.json
+    volumes:
+      - ${SOURCES_DIRECTORY}/.gateway:/etc/krakend
+    ports:
+      - "8080:8080"
+      - "8090:8090"
+    command: [ "run", "-d", "-c", "/etc/krakend/krakend.tmpl" ]
+  postgres-db:
+    image: postgres
+    restart: always
+    ports:
+      - '25432:5432'
+    environment:
+      POSTGRES_PASSWORD: postgreHTone_042023
+    volumes:
+      - ${VOLUME_DIRECTORY}/.pg:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  minio:
+    image: 'bitnami/minio:latest'
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    environment:
+      - MINIO_ROOT_USER=minio_admin
+      - MINIO_ROOT_PASSWORD=postgreHTone_042023
+    volumes:
+      - ${VOLUME_DIRECTORY}/.minio:/data
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+  # LINK: https://keycloak.discourse.group/t/need-help-to-start-with-keycloak-19-andpostgres-in-docker-compose/16749
+  # LINK: https://habr.com/ru/articles/716232/
+#  keycloak:
+#    depends_on:
+#      postgres-db:
+#        condition: service_healthy
+#    image: quay.io/keycloak/keycloak:20.0.5
+#    #    image: quay.io/keycloak/keycloak:latest
+#    healthcheck:
+#      test: [ "CMD", "curl", "--fail", "http://0.0.0.0:8080/realms/master" ]
+#      interval: 5s
+#      timeout: 5s
+#      retries: 5
+#    environment:
+#      KC_DB: postgres
+#      KC_DB_USERNAME: postgres
+#      KC_DB_PASSWORD: postgreHTone_042023
+#      KC_DB_SCHEMA: keycloak
+#      KC_DB_URL_DATABASE: htone_042023
+#      KC_DB_URL_HOST: postgres-db
+#      KC_DB_URL_PORT: 5432
+#      KC_DB_URL_PROPERTIES: "?verifyServerCertificate=false&ssl=allow"
+#      KC_HTTP_ENABLED: "true"
+#      KC_HTTP_PORT: 8080
+#      KC_METRICS_ENABLED: "true"
+#      KEYCLOAK_LOGLEVEL: DEBUG
+#      #      KEYCLOAK_ADMIN: admin
+#      #      KEYCLOAK_ADMIN_PASSWORD: admin
+#      KC_FEATURES: preview,authorization,token-exchange,docker,impersonation,scripts,upload-scripts,web-authn,client-policies,dynamic-scopes
+#      PROXY_ADDRESS_FORWARDING: "true"
+#    ports:
+#      - '8180:8080'
+#    command:
+#      - start-dev
+#      - --import-realm
+#      - --spi-user-profile-legacy-user-profile-read-only-attributes *_RES_ACCESS_MODE
+#    volumes:
+#      - E:/GitHub/leaders2023/src/backend/keycloak/realm.json:/opt/keycloak/data/import/realm.json:ro
+#      - E:/GitHub/leaders2023/src/backend/keycloak/providers/target/providers.jar:/opt/keycloak/providers/hton_providers.jar:z
+  htone-migrate:
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    image: sigma/hton_bucket:latest
+    environment:
+      - PG_USERNAME=postgres
+      - PG_PASSWORD=postgreHTone_042023
+      - PG_HOSTNAME=postgres-db
+      - PG_DATABASE=htone_042023
+    volumes:
+      - ${SOURCES_DIRECTORY}:/app
+    command: [ "/app/migrations/apply.py" ]
+  htone-users:
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    image: sigma/hton_bucket:latest
+    environment:
+      - PG_USERNAME=postgres
+      - PG_PASSWORD=postgreHTone_042023
+      - PG_HOSTNAME=postgres-db
+      - PG_DATABASE=htone_042023
+      - API_GATEWAY_URL=${API_GATEWAY_URL}
+      - MINIO_URL=minio:9000
+    ports:
+      - '8082:8082'
+    volumes:
+      - ${SOURCES_DIRECTORY}:/app
+    command: [ "/app/user_service/main.py" ]
+  htone-files:
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    image: sigma/hton_bucket:latest
+    environment:
+      - PG_USERNAME=postgres
+      - PG_PASSWORD=postgreHTone_042023
+      - PG_HOSTNAME=postgres-db
+      - PG_DATABASE=htone_042023
+      - API_GATEWAY_URL=${API_GATEWAY_URL}
+      - MINIO_URL=minio:9000
+    ports:
+      - '8081:8081'
+    volumes:
+      - ${SOURCES_DIRECTORY}:/app
+    command: [ "/app/file_service/main.py" ]
+  htone-orgs:
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    image: sigma/hton_bucket:latest
+    environment:
+      - PG_USERNAME=postgres
+      - PG_PASSWORD=postgreHTone_042023
+      - PG_HOSTNAME=postgres-db
+      - PG_DATABASE=htone_042023
+      - API_GATEWAY_URL=${API_GATEWAY_URL}
+      - MINIO_URL=minio:9000
+    ports:
+      - '8083:8083'
+    volumes:
+      - ${SOURCES_DIRECTORY}:/app
+    command: [ "/app/orgs_service/main.py" ]
+  htone-platforms:
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    image: sigma/hton_bucket:latest
+    environment:
+      - PG_USERNAME=postgres
+      - PG_PASSWORD=postgreHTone_042023
+      - PG_HOSTNAME=postgres-db
+      - PG_DATABASE=htone_042023
+      - API_GATEWAY_URL=${API_GATEWAY_URL}
+      - MINIO_URL=minio:9000
+    ports:
+      - '8085:8085'
+    volumes:
+      - ${SOURCES_DIRECTORY}:/app
+    command: [ "/app/platform_service/main.py" ]
+  htone-booking:
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    image: sigma/hton_bucket:latest
+    environment:
+      - PG_USERNAME=postgres
+      - PG_PASSWORD=postgreHTone_042023
+      - PG_HOSTNAME=postgres-db
+      - PG_DATABASE=htone_042023
+      - API_GATEWAY_URL=${API_GATEWAY_URL}
+      - MINIO_URL=minio:9000
+    ports:
+      - '8086:8086'
+    volumes:
+      - ${SOURCES_DIRECTORY}:/app
+    command: [ "/app/booking_service/main.py" ]
+  htone-feedback:
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    image: sigma/hton_bucket:latest
+    environment:
+      - PG_USERNAME=postgres
+      - PG_PASSWORD=postgreHTone_042023
+      - PG_HOSTNAME=postgres-db
+      - PG_DATABASE=htone_042023
+      - API_GATEWAY_URL=${API_GATEWAY_URL}
+    ports:
+      - '8087:8087'
+    volumes:
+      - ${SOURCES_DIRECTORY}:/app
+    command: [ "/app/feedback_service/main.py" ]
+  htone-attributes:
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    image: sigma/hton_bucket:latest
+    environment:
+      - PG_USERNAME=postgres
+      - PG_PASSWORD=postgreHTone_042023
+      - PG_HOSTNAME=postgres-db
+      - PG_DATABASE=htone_042023
+      - API_GATEWAY_URL=${API_GATEWAY_URL}
+      - MINIO_URL=minio:9000
+    ports:
+      - '8088:8088'
+    volumes:
+      - ${SOURCES_DIRECTORY}:/app
+    command: [ "/app/attribute_service/main.py" ]
+  htone-dictionaries:
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    image: sigma/hton_bucket:latest
+    environment:
+      - PG_USERNAME=postgres
+      - PG_PASSWORD=postgreHTone_042023
+      - PG_HOSTNAME=postgres-db
+      - PG_DATABASE=htone_042023
+      - API_GATEWAY_URL=${API_GATEWAY_URL}
+      - MINIO_URL=minio:9000
+    ports:
+      - '8084:8084'
+    volumes:
+      - ${SOURCES_DIRECTORY}:/app
+    command: [ "/app/dictionary_service/main.py" ]

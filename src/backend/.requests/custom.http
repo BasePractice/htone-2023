@@ -1,0 +1,3 @@
+### Получение информации о пользователе (DIMA)
+GET {{gateway_url}}/me
+Authorization: Bearer {{dima-access_token}}

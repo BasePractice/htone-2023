@@ -1,0 +1,139 @@
+### Создание организации
+POST {{gateway_url}}/companies
+Authorization: Bearer {{landlord-access_token}}
+Content-Type: application/json;charset=utf-8
+
+{
+  "name": "Рога и копыта",
+  "inn": "00000000000",
+  "ogrn": "00000000000",
+  "legal_address": "г. Кострома, ул.Советская, д. 2/1",
+  "postal_address": "156000, г. Кострома, ул.Советская, д. 2/1",
+  "director": "Вареников Михаил Пафнутьевич"
+}
+
+> {%
+    client.global.set("company_id", response.body.id);
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Подтверждение компании
+PUT {{gateway_url}}/companies/verify/{{company_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Создание платформы
+POST {{gateway_url}}/platforms
+Authorization: Bearer {{landlord-access_token}}
+Content-Type: application/json;charset=utf-8
+
+{
+  "name": "Artplay",
+  "description": "Творческий и деловой квартал, где открыты мастерские, дизайнерские и архитектурные бюро, шоу-румы, магазины, а также организована инфраструктура для комфортного времяпрепровождения: кафе и рестораны, кинозал, клуб, книжный магазин.",
+  "address": "ул. Нижняя Сыромятническая, д. 10",
+  "working": "10:00–21:00",
+  "phone": "+7 (495) 620-08-83",
+  "email": "ic@artplay.ru",
+  "url": "https://www.artplay.ru/",
+  "category": "Unknown",
+  "company_id": "{{company_id}}"
+}
+
+
+> {%
+    client.global.set("platform_id", response.body.id);
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Подтверждение платформы
+PUT {{gateway_url}}/platforms/verify/{{platform_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение информации о платформе
+GET {{gateway_url}}/platforms/{{platform_id}}
+Authorization: Bearer {{landlord-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Создание отзыва
+POST {{gateway_url}}/feedbacks
+Authorization: Bearer {{tonant-access_token}}
+Content-Type: application/json;charset=utf-8
+
+{
+   "platform_id": "{{platform_id}}",
+   "feedback_text": "Как все плохо, просто ужас",
+   "score": 3
+}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Создание отзыва
+POST {{gateway_url}}/feedbacks
+Authorization: Bearer {{tonant-access_token}}
+Content-Type: application/json;charset=utf-8
+
+{
+   "platform_id": "{{platform_id}}",
+   "feedback_text": "А мне все понравилось",
+   "score": 7
+}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Получение информации об отзывах о платформе
+GET {{gateway_url}}/open/feedbacks/platforms/{{platform_id}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+        client.assert(response.body.avg_score === 5, "Должна быть обзая оценка 10");
+    });
+%}
+
+### Удаление платформы
+DELETE {{gateway_url}}/platforms/{{platform_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Удаление компанию
+DELETE {{gateway_url}}/companies/{{company_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}

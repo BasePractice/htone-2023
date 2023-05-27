@@ -1,0 +1,207 @@
+### Создание организации
+POST {{gateway_url}}/companies
+Authorization: Bearer {{admin-access_token}}
+Content-Type: application/json;charset=utf-8
+
+{
+  "name": "Рога и копыта",
+  "inn": "00000000000",
+  "ogrn": "00000000000",
+  "legal_address": "г. Кострома, ул.Советская, д. 2/1",
+  "postal_address": "156000, г. Кострома, ул.Советская, д. 2/1",
+  "director": "Вареников Михаил Пафнутьевич"
+}
+
+> {%
+    client.global.set("company_id", response.body.id);
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Получение информации о компании
+GET {{gateway_url}}/companies/{{company_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### обновление организации
+PUT {{gateway_url}}/companies/{{company_id}}
+Authorization: Bearer {{admin-access_token}}
+Content-Type: application/json;charset=utf-8
+
+{
+  "name": "Рога и копыта & Ко"
+}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение информации о компании
+GET {{gateway_url}}/companies/{{company_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение списка организаций (TONANT). Все активные и верифицированные
+GET {{gateway_url}}/companies/role/ROLE_TENANT
+Authorization: Bearer {{tonant-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+### Получение списка организаций (LANDLORD). Только которыми владеет
+GET {{gateway_url}}/companies/role/ROLE_LANDLORD
+Authorization: Bearer {{landlord-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+### Получение списка организаций (ADMIN). Все
+GET {{gateway_url}}/companies/role/ROLE_ADMIN
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+### Подтверждение компании
+PUT {{gateway_url}}/companies/verify/{{company_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение списка организаций (TONANT). Все активные и верифицированные
+GET {{gateway_url}}/companies/role/ROLE_TENANT
+Authorization: Bearer {{tonant-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+### Добавление LANDLORD
+PUT {{gateway_url}}/companies/attach/{{company_id}}/employee/{{landlord-user_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Добавление TONANT
+PUT {{gateway_url}}/companies/attach/{{company_id}}/employee/{{tonant-user_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение списка организаций (LANDLORD). Только которыми владеет
+GET {{gateway_url}}/companies/role/ROLE_LANDLORD
+Authorization: Bearer {{landlord-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+### Получение списка организаций (TONANT). Только которыми владеет
+GET {{gateway_url}}/companies/role/ROLE_TONANT
+Authorization: Bearer {{tonant-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+### Получение информации о пользователе (TONANT)
+GET {{gateway_url}}/me
+Authorization: Bearer {{tonant-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+### Получение информации о пользователе (LANDLORD)
+GET {{gateway_url}}/me
+Authorization: Bearer {{landlord-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+### Получение информации о компании
+GET {{gateway_url}}/companies/{{company_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение информации о компании не авторизованному пользователю
+GET {{gateway_url}}/open/companies/{{company_id}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+
+### Удаляем LANDLORD из организации
+DELETE {{gateway_url}}/companies/attach/{{company_id}}/employee/{{landlord-user_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение информации о компании
+GET {{gateway_url}}/companies/{{company_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Удаление компанию
+DELETE {{gateway_url}}/companies/{{company_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}

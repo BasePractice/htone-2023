@@ -1,0 +1,207 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class attribute {
+   creator: varchar(36)
+   name: text
+   created_at: timestamp
+   id: varchar(36)
+}
+class node16 as "companies  /* Компании */" {
+   creator  /* Создатель */: varchar(36)
+   name: text
+   inn: text
+   ogrn: text
+   legal_address: text
+   postal_address: text
+   director: text
+   verified: boolean
+   active: boolean
+   created_at: timestamp
+   updated_at: timestamp
+   id  /* Идентификатор компании */: varchar(36)
+}
+class companies_employee {
+   companies_id: varchar(36)
+   employee_id: varchar(36)
+   kind: varchar(20)
+   created_at: timestamp
+   id: varchar(36)
+}
+class company_attribute {
+   creator: varchar(36)
+   company_id: varchar(36)
+   attribute_id: varchar(36)
+   value: text
+   created_at: timestamp
+   id: varchar(36)
+}
+class dictionaries {
+   creator: varchar(36)
+   mnemonic: text
+   description: text
+   created_at: timestamp
+   updated_at: timestamp
+   id: varchar(36)
+}
+class dictionary_items {
+   creator: varchar(36)
+   dictionary_id: varchar(36)
+   name: text
+   value: text
+   description: text
+   created_at: timestamp
+   updated_at: timestamp
+   id: varchar(36)
+}
+class node15 as "feedback  /* Отзывы и оценки площадок */" {
+   platform_id  /* Идентификатор площадки (UUID) */: varchar(36)
+   creator_id  /* Идентификатор пользователя (UUID) */: varchar(36)
+   feedback_text  /* Текст отзыва */: text
+   score  /* Оценка площадки */: smallint
+   active: boolean
+   created_at: timestamp
+   updated_at: timestamp
+   feedback_id  /* Идентификатор отзыва (UUID) */: varchar(36)
+}
+class file_attribute {
+   creator: varchar(36)
+   company_id: varchar(36)
+   reference_id: varchar(36)
+   value: text
+   created_at: timestamp
+   id: varchar(36)
+}
+class group {
+   tenant_id: varchar(36)
+   accepted: boolean
+   created_at: timestamp
+   id: varchar(36)
+}
+class group_additional_service {
+   group_id: varchar(36)
+   service_id: varchar(36)
+   created_at: timestamp
+   id: varchar(36)
+}
+class group_item {
+   group_id: varchar(36)
+   item_id: varchar(36)
+   created_at: timestamp
+   id: varchar(36)
+}
+class node7 as "item  /* Элемент бронирования */" {
+   platform_id  /* Идентификатор платформы */: varchar(36)
+   tenant_id  /* Идентификатор бронирующего */: varchar(36)
+   date_use: timestamp
+   created_at: timestamp
+   id: varchar(36)
+}
+class item_additional_service {
+   item_id: varchar(36)
+   service_id: varchar(36)
+   created_at: timestamp
+   id: varchar(36)
+}
+class node19 as "kind  /* Категория */" {
+   name  /* Наименование категории */: varchar(64)
+   minio_dir  /* Директория в minio, в которую будет помещаться файлы данной к... */: varchar(64)
+   description  /* Описание */: text
+   open: boolean
+   id: integer
+}
+class node6 as "platform  /* Платформа */" {
+   creator  /* Создатель */: varchar(36)
+   name: text
+   description: text
+   address: text
+   working: text
+   phone: text
+   email: text
+   url: text
+   category: text
+   latitude: text
+   longitude: text
+   verified: boolean
+   active: boolean
+   created_at: timestamp
+   updated_at: timestamp
+   company_id: varchar(36)
+   unit_price: double precision
+   id  /* Идентификатор платформы */: varchar(36)
+}
+class platform_additional_service {
+   creator: varchar(36)
+   platform_id: varchar(36)
+   name: text
+   description: text
+   unit_price: double precision
+   type: text
+   created_at: timestamp
+   id: varchar(36)
+}
+class platform_attachments {
+   platform_id: varchar(36)
+   attachment_id: varchar(36)
+   created_at: timestamp
+   id: varchar(36)
+}
+class platform_attribute {
+   creator: varchar(36)
+   platform_id: varchar(36)
+   attribute_id: varchar(36)
+   value: text
+   created_at: timestamp
+   id: varchar(36)
+}
+class node20 as "platform_owners  /* Хозяева платформы */" {
+   platform_id  /* Идентификатор платформы */: varchar(36)
+   user_id  /* Идентификатор пользователя */: varchar(36)
+   role: varchar(20)
+   created_at: timestamp
+   id: varchar(36)
+}
+class node18 as "reference  /* Файл */" {
+   filename  /* Имя файла, которое отдается пользователю при HTTP запросе */: text
+   reference  /* Идентификатор файла в minio. UUIDv4 */: uuid
+   user_id  /* Идентификатор пользователя который создал файл */: text
+   hash  /* SHA256 содержимого файла */: text
+   kind_id  /* Категория файла */: bigint
+   type_id  /* Тип файла */: bigint
+   created_at: timestamp
+   id: varchar(36)
+}
+class node14 as "type  /* Тип */" {
+   extension  /* Расширение для файлов */: varchar(20)
+   name  /* Наименовнаие типа */: varchar(64)
+   content_type  /* Content-Type */: text
+   description  /* Описание */: text
+   id: integer
+}
+
+companies_employee           -[#595959,plain]-^  node16                      : "companies_id:id"
+company_attribute            -[#595959,plain]-^  attribute                   : "attribute_id:id"
+company_attribute            -[#595959,plain]-^  node16                      : "company_id:id"
+dictionary_items             -[#595959,plain]-^  dictionaries                : "dictionary_id:id"
+file_attribute               -[#595959,plain]-^  attribute                   : "reference_id:id"
+file_attribute               -[#595959,plain]-^  node18                      : "company_id:id"
+group_additional_service     -[#595959,plain]-^  group                       : "group_id:id"
+group_additional_service     -[#595959,plain]-^  platform_additional_service : "service_id:id"
+group_item                   -[#595959,plain]-^  group                       : "group_id:id"
+group_item                   -[#595959,plain]-^  node7                       : "item_id:id"
+node7                        -[#595959,plain]-^  node6                       : "platform_id:id"
+item_additional_service      -[#595959,plain]-^  node7                       : "item_id:id"
+item_additional_service      -[#595959,plain]-^  platform_additional_service : "service_id:id"
+node6                        -[#595959,plain]-^  node16                      : "company_id:id"
+platform_additional_service  -[#595959,plain]-^  node6                       : "platform_id:id"
+platform_attachments         -[#595959,plain]-^  node6                       : "platform_id:id"
+platform_attachments         -[#595959,plain]-^  node18                      : "attachment_id:id"
+platform_attribute           -[#595959,plain]-^  attribute                   : "attribute_id:id"
+platform_attribute           -[#595959,plain]-^  node6                       : "platform_id:id"
+node20                       -[#595959,plain]-^  node6                       : "platform_id:id"
+node18                       -[#595959,plain]-^  node19                      : "kind_id:id"
+node18                       -[#595959,plain]-^  node14                      : "type_id:id"
+@enduml

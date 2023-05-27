@@ -1,0 +1,38 @@
+"auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}

@@ -1,0 +1,167 @@
+{
+  "$schema": "https://www.krakend.io/schema/v3.json",
+  "version": 3,
+  "name": "Gateway API",
+  "extra_config": {
+    "telemetry/logging": {
+      "level": "INFO",
+      "prefix": "[KRAKEND]",
+      "syslog": false,
+      "stdout": true,
+      "format": "default"
+    },
+    "telemetry/metrics": {
+      "collection_time": "60s",
+      "proxy_disabled": false,
+      "router_disabled": false,
+      "backend_disabled": false,
+      "endpoint_disabled": false,
+      "listen_address": ":8090"
+    }
+  },
+  "timeout": "30000ms",
+  "cache_ttl": "30s",
+  "output_encoding": "json",
+  "port": 8080,
+  "debug_endpoint": true,
+  "endpoints": [
+    {
+        "endpoint": "/v1/me",
+        "method": "GET",
+        "output_encoding": "json",
+        "timeout": "10s",
+        "input_headers": [
+            "User-Agent",
+            "Authorization",
+            "X-User",
+            "X-User-Name",
+            "X-User-Preferred-Name",
+            "X-User-Email",
+            "X-Roles",
+            "Content-Type",
+            "Cookie",
+            "Set-Cookie"
+        ],
+        "headers_to_pass": [
+            "*"
+        ],
+        "backend": [
+            {
+                "url_pattern": "/users/me",
+                "method": "GET",
+                "encoding": "safejson",
+                "disable_host_sanitize": false,
+                "host": [
+                    "http://htone-users:8082"
+                ],
+                "extra_config": {
+                    {{ include "rate_limit_backend.tmpl" }}
+                }
+            },
+            {
+                "url_pattern": "/companies/me",
+                "method": "GET",
+                "encoding": "safejson",
+                "disable_host_sanitize": false,
+                "is_collection": true,
+                "host": [
+                    "http://htone-orgs:8083"
+                ],
+                "extra_config": {
+                    {{ include "rate_limit_backend.tmpl" }}
+                },
+                "mapping": {
+                    "collection": "companies"
+                }
+            },
+            {
+                "url_pattern": "/booking/me",
+                "method": "GET",
+                "encoding": "safejson",
+                "disable_host_sanitize": false,
+                "is_collection": true,
+                "host": [
+                    "http://htone-booking:8086"
+                ],
+                "extra_config": {
+                    {{ include "rate_limit_backend.tmpl" }}
+                },
+                "mapping": {
+                    "collection": "bookings"
+                }
+            }
+        ],
+        "extra_config": {
+            {{ include "auth_validator_backend.tmpl" }}
+        }
+    },
+    {{ range $idx, $endpoint := .endpoints.auth_v1 }}
+    {{if $idx}},{{end}}
+    {
+    "endpoint": "{{ $endpoint.endpoint }}",
+    "method": "{{ $endpoint.method }}",
+    "output_encoding": "{{ $endpoint.output_encoding }}",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "{{ $endpoint.path }}",
+            "method": "{{ $endpoint.method }}",
+            "encoding": "{{ $endpoint.encoding }}",
+            "disable_host_sanitize": false,
+            "host": [
+                "{{ $endpoint.backend }}"
+            ],
+            "extra_config": {
+                {{ include "rate_limit_backend.tmpl" }}
+            }
+        }
+    ],
+    "extra_config": {
+        {{ include "auth_validator_backend.tmpl" }}
+    }}
+    {{ end }},
+
+    {{ range $idx, $endpoint := .endpoints.simp_v1 }}
+    {{if $idx}},{{end}}
+    {
+    "endpoint": "{{ $endpoint.endpoint }}",
+    "method": "{{ $endpoint.method }}",
+    "output_encoding": "{{ $endpoint.output_encoding }}",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "{{ $endpoint.path }}",
+            "method": "{{ $endpoint.method }}",
+            "encoding": "{{ $endpoint.encoding }}",
+            "disable_host_sanitize": false,
+            "host": [
+                "{{ $endpoint.backend }}"
+            ],
+            "extra_config": {
+                {{ include "rate_limit_backend.tmpl" }}
+            }
+        }
+    ]}
+    {{ end }}
+  ]
+}

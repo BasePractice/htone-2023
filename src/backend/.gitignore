@@ -1,0 +1,6 @@
+/.idea
+/.minio
+/.pg
+/venv
+__pycache__
+/.env.skim

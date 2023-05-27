@@ -1,0 +1,459 @@
+### Создание организации
+POST {{gateway_url}}/companies
+Authorization: Bearer {{landlord-access_token}}
+Content-Type: application/json;charset=utf-8
+
+{
+  "name": "Рога и копыта",
+  "inn": "00000000000",
+  "ogrn": "00000000000",
+  "legal_address": "г. Кострома, ул.Советская, д. 2/1",
+  "postal_address": "156000, г. Кострома, ул.Советская, д. 2/1",
+  "director": "Вареников Михаил Пафнутьевич"
+}
+
+> {%
+    client.global.set("company_id", response.body.id);
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Подтверждение компании
+PUT {{gateway_url}}/companies/verify/{{company_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Создание платформы
+POST {{gateway_url}}/platforms
+Authorization: Bearer {{landlord-access_token}}
+Content-Type: application/json;charset=utf-8
+
+{
+  "name": "Artplay",
+  "description": "Творческий и деловой квартал, где открыты мастерские, дизайнерские и архитектурные бюро, шоу-румы, магазины, а также организована инфраструктура для комфортного времяпрепровождения: кафе и рестораны, кинозал, клуб, книжный магазин.",
+  "address": "ул. Нижняя Сыромятническая, д. 10",
+  "working": "10:00–21:00",
+  "phone": "+7 (495) 620-08-83",
+  "email": "ic@artplay.ru",
+  "url": "https://www.artplay.ru/",
+  "category": "Unknown",
+  "company_id": "{{company_id}}"
+}
+
+
+> {%
+    client.global.set("platform_id", response.body.id);
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Создание дополнительного сервиса (КОФЕ)
+POST {{gateway_url}}/platforms/{{platform_id}}/services
+Authorization: Bearer {{landlord-access_token}}
+Content-Type: application/json;charset=utf-8
+
+{
+  "name": "Кофе в постель",
+  "description": "Приносит кофе в постель сразу после пробуждения",
+  "unit_price": 12.0,
+  "type": "PER_UNIT"
+}
+
+
+> {%
+    client.global.set("platform_service_coffie_id", response.body.id);
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Создание дополнительного сервиса (ВОДКА)
+POST {{gateway_url}}/platforms/{{platform_id}}/services
+Authorization: Bearer {{landlord-access_token}}
+Content-Type: application/json;charset=utf-8
+
+{
+  "name": "На ход ноги",
+  "description": "Подает рюмку водки каждый день после закрытия площадки",
+  "unit_price": 121.0,
+  "type": "PER_GROUP"
+}
+
+
+> {%
+    client.global.set("platform_service_vodka_id", response.body.id);
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Создание файла презентации
+POST {{gateway_url}}/files HTTP/1.1
+Authorization: Bearer {{tonant-access_token}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="input.jpg"
+
+< ./input.jpg
+
+--boundary
+Content-Disposition: form-data; name="kind"
+
+PRESENT
+--boundary--
+
+
+> {%
+    client.global.set("platform_present_attachment_id", response.body.id);
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Создание файла оферты
+POST {{gateway_url}}/platforms/attachment/{{platform_id}}/file HTTP/1.1
+Authorization: Bearer {{admin-access_token}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="offert.pdf"
+
+< ./offert.pdf
+
+--boundary
+Content-Disposition: form-data; name="kind"
+
+CONTRACT
+--boundary--
+
+
+> {%
+    client.global.set("platform_contract_attachment_id", response.body.attachment_id);
+    client.global.set("platform_contract_model_id", response.body.id);
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Добавление файла презентации к платформе
+PUT {{gateway_url}}/platforms/attachment/{{platform_id}}/create/{{platform_present_attachment_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение списка плаформ (TONANT). Все активные и верифицированные
+GET {{gateway_url}}/platforms/role/ROLE_TENANT
+Authorization: Bearer {{tonant-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение списка плаформ не авторизованному пользователю
+GET {{gateway_url}}/open/platforms
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение информации о платформе неавторизованному пользователю
+GET {{gateway_url}}/open/platforms/{{platform_id}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 400, "Response status is not 400");
+        client.assert(response.body.code === 'LDR-01001', "Код должен быть LDR-01001");
+    });
+%}
+
+### Подтверждение платформы
+PUT {{gateway_url}}/platforms/verify/{{platform_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение информации о платформе неавторизованному пользователю
+GET {{gateway_url}}/open/platforms/{{platform_id}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение списка плаформ (TONANT). Все активные и верифицированные
+GET {{gateway_url}}/platforms/role/ROLE_TENANT
+Authorization: Bearer {{tonant-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение списка плаформ (LANDLORD). Только которыми владеет
+GET {{gateway_url}}/platforms/role/ROLE_LANDLORD
+Authorization: Bearer {{landlord-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Добавление LANDLORD
+PUT {{gateway_url}}/platforms/assign/{{platform_id}}/owner/{{landlord-user_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение списка плаформ (LANDLORD). Только которыми владеет
+GET {{gateway_url}}/platforms/role/ROLE_LANDLORD
+Authorization: Bearer {{landlord-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение списка плаформ (ADMIN). Все
+GET {{gateway_url}}/platforms/role/ROLE_ADMIN
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Обновление платформы
+PUT {{gateway_url}}/platforms/{{platform_id}}
+Authorization: Bearer {{admin-access_token}}
+Content-Type: application/json;charset=utf-8
+
+{
+  "latitude": "37.571252",
+  "longitude": "55.564435"
+}
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение информации о платформе
+GET {{gateway_url}}/platforms/{{platform_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение списка плаформ (TONANT). Все активные и верифицированные
+GET {{gateway_url}}/platforms/role/ROLE_TENANT
+Authorization: Bearer {{tonant-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Подтверждение платформы
+PUT {{gateway_url}}/platforms/verify/{{platform_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение списка плаформ (TONANT). Все активные и верифицированные
+GET {{gateway_url}}/platforms/role/ROLE_TENANT
+Authorization: Bearer {{tonant-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Деактивайия платформы
+PUT {{gateway_url}}/platforms/deactivate/{{platform_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение плаформы (TONANT).
+GET {{gateway_url}}/platforms/{{platform_id}}
+Authorization: Bearer {{tonant-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 400, "Response status is not 400");
+        client.assert(response.body.code === 'LDR-01001', "Response error code must be LDR-01001");
+    });
+%}
+
+### Получение списка плаформ по компании
+GET {{gateway_url}}/platforms/company/{{company_id}}/ROLE_ADMIN
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Активация платформы
+PUT {{gateway_url}}/platforms/activate/{{platform_id}}
+Authorization: Bearer {{landlord-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение плафоры (TONANT).
+GET {{gateway_url}}/platforms/{{platform_id}}
+Authorization: Bearer {{tonant-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Деактивайия платформы
+PUT {{gateway_url}}/platforms/deactivate/{{platform_id}}
+Authorization: Bearer {{landlord-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение списка плаформ (TONANT). Все активные и верифицированные
+GET {{gateway_url}}/platforms/role/ROLE_TENANT
+Authorization: Bearer {{tonant-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Удаление дополнительного сервиса (КОФЕ)
+DELETE {{gateway_url}}/platforms/{{platform_id}}/services/{{platform_service_coffie_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Удаление дополнительного сервиса (ВОДКА)
+DELETE {{gateway_url}}/platforms/{{platform_id}}/services/{{platform_service_vodka_id}}
+Authorization: Bearer {{landlord-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+
+### Удаление файла перезентации у платформе
+DELETE {{gateway_url}}/platforms/attachment/{{platform_id}}/delete/{{platform_present_attachment_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Удаление файла оферты у платформе
+DELETE {{gateway_url}}/platforms/attachment/{{platform_id}}/delete/{{platform_contract_attachment_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Удаление платформы
+DELETE {{gateway_url}}/platforms/{{platform_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Удаление компанию
+DELETE {{gateway_url}}/companies/{{company_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Удаление файла презентации
+DELETE {{gateway_url}}/files/{{platform_present_attachment_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 202, "Response status is not 202");
+    });
+%}
+
+### Удаление файла оферты
+DELETE {{gateway_url}}/files/{{platform_contract_attachment_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 202, "Response status is not 202");
+    });
+%}

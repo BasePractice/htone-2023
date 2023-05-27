@@ -1,0 +1,7 @@
+=== Тестовые пользователи
+
+|===
+|Логин |Пароль |Роли
+
+|khlebnikov.a@sigm-a.ru |khlebnikov.a@sigm-a.ru| нет
+|===

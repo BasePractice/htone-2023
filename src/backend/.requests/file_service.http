@@ -1,0 +1,197 @@
+### Получение всех категорий
+GET {{gateway_url}}/files/dict/kinds
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение всех типов файлов
+GET {{gateway_url}}/files/dict/types
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Сохранение файла презентации
+POST {{gateway_url}}/files HTTP/1.1
+Authorization: Bearer {{admin-access_token}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="input.jpg"
+
+< ./input.jpg
+
+--boundary
+Content-Disposition: form-data; name="kind"
+
+PRESENT
+--boundary--
+
+
+> {%
+    client.global.set("create_present_id", response.body.id);
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Сохранение файла оферты
+POST {{gateway_url}}/files HTTP/1.1
+Authorization: Bearer {{admin-access_token}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="offert.pdf"
+
+< ./offert.pdf
+
+--boundary
+Content-Disposition: form-data; name="kind"
+
+CONTRACT
+--boundary--
+
+
+> {%
+    client.global.set("create_contract_id", response.body.id);
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Сохранение файла подписи
+POST {{gateway_url}}/files HTTP/1.1
+Authorization: Bearer {{admin-access_token}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="offert.sig"
+
+< ./offert.pdf
+
+--boundary
+Content-Disposition: form-data; name="kind"
+
+SIGNATURE
+--boundary--
+
+
+> {%
+    client.global.set("create_signature_id", response.body.id);
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+
+### Создание ссылки на файл
+POST {{gateway_url}}/files/create-link/{{create_present_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.global.set("open-file-link", response.body);
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201. But " + response.status);
+    });
+%}
+
+### Получение файла по ссылке
+GET {{open-file-link}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение файла
+GET {{gateway_url}}/files/content/{{create_present_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение файла неавторизованным пользователем. Успешно
+GET {{gateway_url}}/open/files/content/{{create_present_id}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение файла неавторизованным пользователем. Успешно
+GET {{gateway_url}}/open/files/content/{{create_contract_id}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение файла неавторизованным пользователем. Ошибка
+GET {{gateway_url}}/open/files/content/{{create_signature_id}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 401, "Response status is not 401");
+    });
+%}
+
+### Получение информации о файле
+GET {{gateway_url}}/files/metadata/{{create_present_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение всех файлов пользователя
+GET {{gateway_url}}/files
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Удаление файла презентации
+DELETE {{gateway_url}}/files/{{create_present_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 202, "Response status is not 202");
+    });
+%}
+
+### Удаление файла контракта
+DELETE {{gateway_url}}/files/{{create_contract_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 202, "Response status is not 202");
+    });
+%}
+
+### Удаление файла подписи
+DELETE {{gateway_url}}/files/{{create_signature_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 202, "Response status is not 202");
+    });
+%}

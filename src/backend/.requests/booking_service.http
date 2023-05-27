@@ -1,0 +1,284 @@
+### Создание организации
+POST {{gateway_url}}/companies
+Authorization: Bearer {{landlord-access_token}}
+Content-Type: application/json;charset=utf-8
+
+{
+  "name": "Рога и копыта",
+  "inn": "00000000000",
+  "ogrn": "00000000000",
+  "legal_address": "г. Кострома, ул.Советская, д. 2/1",
+  "postal_address": "156000, г. Кострома, ул.Советская, д. 2/1",
+  "director": "Вареников Михаил Пафнутьевич"
+}
+
+> {%
+    client.global.set("company_id", response.body.id);
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Подтверждение компании
+PUT {{gateway_url}}/companies/verify/{{company_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Создание платформы
+POST {{gateway_url}}/platforms
+Authorization: Bearer {{landlord-access_token}}
+Content-Type: application/json;charset=utf-8
+
+{
+  "name": "Artplay",
+  "description": "Творческий и деловой квартал, где открыты мастерские, дизайнерские и архитектурные бюро, шоу-румы, магазины, а также организована инфраструктура для комфортного времяпрепровождения: кафе и рестораны, кинозал, клуб, книжный магазин.",
+  "address": "ул. Нижняя Сыромятническая, д. 10",
+  "working": "10:00–21:00",
+  "phone": "+7 (495) 620-08-83",
+  "email": "ic@artplay.ru",
+  "url": "https://www.artplay.ru/",
+  "category": "Unknown",
+  "company_id": "{{company_id}}"
+}
+
+
+> {%
+    client.global.set("platform_id", response.body.id);
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Создание дополнительного сервиса (КОФЕ)
+POST {{gateway_url}}/platforms/{{platform_id}}/services
+Authorization: Bearer {{landlord-access_token}}
+Content-Type: application/json;charset=utf-8
+
+{
+  "name": "Кофе в постель",
+  "description": "Приносит кофе в постель сразу после пробуждения",
+  "unit_price": 12.0,
+  "type": "PER_UNIT"
+}
+
+
+> {%
+    client.global.set("platform_service_coffie_id", response.body.id);
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Создание дополнительного сервиса (ВОДКА)
+POST {{gateway_url}}/platforms/{{platform_id}}/services
+Authorization: Bearer {{landlord-access_token}}
+Content-Type: application/json;charset=utf-8
+
+{
+  "name": "На ход ноги",
+  "description": "Подает рюмку водки каждый день после закрытия площадки",
+  "unit_price": 121.0,
+  "type": "PER_GROUP"
+}
+
+
+> {%
+    client.global.set("platform_service_vodka_id", response.body.id);
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}
+
+### Подтверждение платформы
+PUT {{gateway_url}}/platforms/verify/{{platform_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение списка плаформ (TONANT). Все активные и верифицированные
+GET {{gateway_url}}/platforms/role/ROLE_TENANT
+Authorization: Bearer {{tonant-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+### Получение списка плаформ (LANDLORD). Только которыми владеет
+GET {{gateway_url}}/platforms/role/ROLE_LANDLORD
+Authorization: Bearer {{landlord-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+### Обновление платформы
+PUT {{gateway_url}}/platforms/{{platform_id}}
+Authorization: Bearer {{admin-access_token}}
+Content-Type: application/json;charset=utf-8
+
+{
+  "latitude": "37.571252",
+  "longitude": "55.564435"
+}
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Подтверждение платформы
+PUT {{gateway_url}}/platforms/verify/{{platform_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение списка плаформ (TONANT). Все активные и верифицированные
+GET {{gateway_url}}/platforms/role/ROLE_TENANT
+Authorization: Bearer {{tonant-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+### Создание бронирования
+POST {{gateway_url}}/booking
+Authorization: Bearer {{tonant-access_token}}
+Content-Type: application/json;charset=utf-8
+
+{
+  "items": [
+    {
+      "platform_id": "{{platform_id}}",
+      "date_use": "2023-05-24",
+      "services": [
+        "{{platform_service_coffie_id}}"
+      ]
+    },
+    {
+      "platform_id": "{{platform_id}}",
+      "date_use": "2023-05-25",
+      "services": [
+        "{{platform_service_coffie_id}}"
+      ]
+    },
+    {
+      "platform_id": "{{platform_id}}",
+      "date_use": "2023-05-26"
+    }
+  ],
+  "services": [
+    "{{platform_service_vodka_id}}"
+  ]
+}
+
+> {%
+    client.global.set("platform_booking_group_id", response.body.group_id);
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201. Status: " + response.status);
+    });
+%}
+
+### Получение бронирований в диапазоне, параметры по умолчанию
+GET {{gateway_url}}/booking/platforms/{{platform_id}}
+Authorization: Bearer {{tonant-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение бронирований в диапазоне = 2023-05-24 to 2023-05-25
+GET {{gateway_url}}/booking/platforms/{{platform_id}}?date-begin=2023-05-24&date-end=2023-05-25
+Authorization: Bearer {{tonant-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение информации о пользователе (TONANT)
+GET {{gateway_url}}/me
+Authorization: Bearer {{tonant-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+### Удаление бронирования
+DELETE {{gateway_url}}/booking/{{platform_booking_group_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Удаление дополнительного сервиса (КОФЕ)
+DELETE {{gateway_url}}/platforms/{{platform_id}}/services/{{platform_service_coffie_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Удаление дополнительного сервиса (ВОДКА)
+DELETE {{gateway_url}}/platforms/{{platform_id}}/services/{{platform_service_vodka_id}}
+Authorization: Bearer {{landlord-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Удаление платформы
+DELETE {{gateway_url}}/platforms/{{platform_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Удаляем LANDLORD из организации
+DELETE {{gateway_url}}/companies/attach/{{company_id}}/employee/{{landlord-user_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Удаление компанию
+DELETE {{gateway_url}}/companies/{{company_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}

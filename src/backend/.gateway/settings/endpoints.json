@@ -1,0 +1,537 @@
+{
+  "simp_v1": [
+    {
+      "name": "get_file_open_link",
+      "endpoint": "/v1/files/open-link/{id}",
+      "backend": "http://htone-files:8081",
+      "path": "/files/open-link/{id}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_file_open_link_metadata",
+      "endpoint": "/v1/files/open-link/{id}/metadata",
+      "backend": "http://htone-files:8081",
+      "path": "/files/open-link/{id}/metadata",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_file_kinds",
+      "endpoint": "/v1/files/dict/kinds",
+      "backend": "http://htone-files:8081",
+      "path": "/files/dict/kinds",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_file_types",
+      "endpoint": "/v1/files/dict/types",
+      "backend": "http://htone-files:8081",
+      "path": "/files/dict/types",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_org_employee_types",
+      "endpoint": "/v1/companies/dict/employee_types",
+      "backend": "http://htone-orgs:8083",
+      "path": "/companies/dict/employee_types",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_org_types",
+      "endpoint": "/v1/companies/dict/org_types",
+      "backend": "http://htone-orgs:8083",
+      "path": "/companies/dict/org_types",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_company",
+      "endpoint": "/v1/open/companies/{id}",
+      "backend": "http://htone-orgs:8083",
+      "path": "/companies/{id}/open",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_platforms",
+      "endpoint": "/v1/open/platforms",
+      "backend": "http://htone-platforms:8085",
+      "path": "/open/platforms",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_platform_by_id",
+      "endpoint": "/v1/open/platforms/{id}",
+      "backend": "http://htone-platforms:8085",
+      "path": "/open/platforms/{id}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_file_content",
+      "endpoint": "/v1/open/files/content/{id}",
+      "backend": "http://htone-files:8081",
+      "path": "/files/{id}/content/open",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_platform_attributes_open",
+      "endpoint": "/v1/open/attributes/platform/{platform_id}",
+      "backend": "http://htone-attributes:8088",
+      "path": "/attributes/platform/{platform_id}/open",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "platform_search",
+      "endpoint": "/v1/attributes/search/platforms",
+      "backend": "http://htone-attributes:8088",
+      "path": "/attributes/search/platforms",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_feedback_by_platform_id",
+      "endpoint": "/v1/open/feedbacks/platforms/{platform_id}",
+      "backend": "http://htone-feedback:8087",
+      "path": "/open/feedbacks/platforms/{platform_id}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_dictionaries",
+      "endpoint": "/v1/open/dictionaries",
+      "backend": "http://htone-dictionaries:8084",
+      "path": "/open/dictionaries",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_dictionary_items",
+      "endpoint": "/v1/open/dictionaries/{mnemonic}",
+      "backend": "http://htone-dictionaries:8084",
+      "path": "/open/dictionaries/{mnemonic}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    }
+  ],
+  "auth_v1": [
+    {
+      "name": "put_files",
+      "endpoint": "/v1/files",
+      "backend": "http://htone-files:8081",
+      "path": "/files",
+      "method": "POST",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_files",
+      "endpoint": "/v1/files",
+      "backend": "http://htone-files:8081",
+      "path": "/files",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_file_content",
+      "endpoint": "/v1/files/content/{id}",
+      "backend": "http://htone-files:8081",
+      "path": "/files/{id}/content",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_file_metadata",
+      "endpoint": "/v1/files/metadata/{id}",
+      "backend": "http://htone-files:8081",
+      "path": "/files/{id}/metadata",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "del_file",
+      "endpoint": "/v1/files/{id}",
+      "backend": "http://htone-files:8081",
+      "path": "/files/{id}",
+      "method": "DELETE",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "create_link",
+      "endpoint": "/v1/files/create-link/{id}",
+      "backend": "http://htone-files:8081",
+      "path": "/files/create-link/{id}",
+      "method": "POST",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_users",
+      "endpoint": "/v1/users",
+      "backend": "http://htone-users:8082",
+      "path": "/users",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_user",
+      "endpoint": "/v1/users/{user_id}",
+      "backend": "http://htone-users:8082",
+      "path": "/users/{user_id}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_platforms_by_role",
+      "endpoint": "/v1/platforms/role/{role}",
+      "backend": "http://htone-platforms:8085",
+      "path": "/platforms/role/{role}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_platform",
+      "endpoint": "/v1/platforms/{id}",
+      "backend": "http://htone-platforms:8085",
+      "path": "/platforms/{id}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_platform_service_types",
+      "endpoint": "/v1/platforms/service/dict/types",
+      "backend": "http://htone-platforms:8085",
+      "path": "/platforms/service/dict/types",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_platform_services",
+      "endpoint": "/v1/platforms/{id}/services",
+      "backend": "http://htone-platforms:8085",
+      "path": "/platforms/{id}/services",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "create_platform_service",
+      "endpoint": "/v1/platforms/{id}/services",
+      "backend": "http://htone-platforms:8085",
+      "path": "/platforms/{id}/services",
+      "method": "POST",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "delete_platform_service",
+      "endpoint": "/v1/platforms/{id}/services/{service_id}",
+      "backend": "http://htone-platforms:8085",
+      "path": "/platforms/{id}/services/{service_id}",
+      "method": "DELETE",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_company_platforms",
+      "endpoint": "/v1/platforms/company/{company_id}/{role}",
+      "backend": "http://htone-platforms:8085",
+      "path": "/platforms/company/{company_id}/{role}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "create_platform",
+      "endpoint": "/v1/platforms",
+      "backend": "http://htone-platforms:8085",
+      "path": "/platforms",
+      "method": "POST",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "verify_platform",
+      "endpoint": "/v1/platforms/verify/{id}",
+      "backend": "http://htone-platforms:8085",
+      "path": "/platforms/verify/{id}",
+      "method": "PUT",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "deactivate_platform",
+      "endpoint": "/v1/platforms/deactivate/{id}",
+      "backend": "http://htone-platforms:8085",
+      "path": "/platforms/deactivate/{id}",
+      "method": "PUT",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "activate_platform",
+      "endpoint": "/v1/platforms/activate/{id}",
+      "backend": "http://htone-platforms:8085",
+      "path": "/platforms/activate/{id}",
+      "method": "PUT",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "delete_platform",
+      "endpoint": "/v1/platforms/{id}",
+      "backend": "http://htone-platforms:8085",
+      "path": "/platforms/{id}",
+      "method": "DELETE",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "update_platform",
+      "endpoint": "/v1/platforms/{id}",
+      "backend": "http://htone-platforms:8085",
+      "path": "/platforms/{id}",
+      "method": "PUT",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "assign_platform",
+      "endpoint": "/v1/platforms/assign/{platform_id}/owner/{user_id}",
+      "backend": "http://htone-platforms:8085",
+      "path": "/platforms/assign/{platform_id}/owner/{user_id}",
+      "method": "PUT",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "create_attach_platform",
+      "endpoint": "/v1/platforms/attachment/{platform_id}/create/{attachment_id}",
+      "backend": "http://htone-platforms:8085",
+      "path": "/platforms/attachment/{platform_id}/file/{attachment_id}",
+      "method": "PUT",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "create_attachment_platform",
+      "endpoint": "/v1/platforms/attachment/{platform_id}/file",
+      "backend": "http://htone-platforms:8085",
+      "path": "/platforms/attachment/{platform_id}/file",
+      "method": "POST",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "delete_attach_platform",
+      "endpoint": "/v1/platforms/attachment/{platform_id}/delete/{attachment_id}",
+      "backend": "http://htone-platforms:8085",
+      "path": "/platforms/attachment/{platform_id}/file/{attachment_id}",
+      "method": "DELETE",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "create_company",
+      "endpoint": "/v1/companies",
+      "backend": "http://htone-orgs:8083",
+      "path": "/companies",
+      "method": "POST",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "update_company",
+      "endpoint": "/v1/companies/{company_id}",
+      "backend": "http://htone-orgs:8083",
+      "path": "/companies/{company_id}",
+      "method": "PUT",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_company",
+      "endpoint": "/v1/companies/{id}",
+      "backend": "http://htone-orgs:8083",
+      "path": "/companies/{id}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "delete_company",
+      "endpoint": "/v1/companies/{id}",
+      "backend": "http://htone-orgs:8083",
+      "path": "/companies/{id}",
+      "method": "DELETE",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "verify_company",
+      "endpoint": "/v1/companies/verify/{company_id}",
+      "backend": "http://htone-orgs:8083",
+      "path": "/companies/verify/{company_id}",
+      "method": "PUT",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_companies_by_roles",
+      "endpoint": "/v1/companies/role/{role}",
+      "backend": "http://htone-orgs:8083",
+      "path": "/companies/role/{role}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "create_attach_company",
+      "endpoint": "/v1/companies/attach/{company_id}/employee/{employee_id}",
+      "backend": "http://htone-orgs:8083",
+      "path": "/companies/attach/{company_id}/employee/{employee_id}",
+      "method": "PUT",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "delete_attach_company",
+      "endpoint": "/v1/companies/attach/{company_id}/employee/{employee_id}",
+      "backend": "http://htone-orgs:8083",
+      "path": "/companies/attach/{company_id}/employee/{employee_id}",
+      "method": "DELETE",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "create_booking",
+      "endpoint": "/v1/booking",
+      "backend": "http://htone-booking:8086",
+      "path": "/booking",
+      "method": "POST",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "delete_booking",
+      "endpoint": "/v1/booking/{id}",
+      "backend": "http://htone-booking:8086",
+      "path": "/booking/{id}",
+      "method": "DELETE",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_bookings",
+      "endpoint": "/v1/booking/platforms/{id}",
+      "backend": "http://htone-booking:8086",
+      "path": "/booking/platforms/{id}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "create_attributes",
+      "endpoint": "/v1/attributes/platform/{platform_id}",
+      "backend": "http://htone-attributes:8088",
+      "path": "/attributes/platform/{platform_id}",
+      "method": "POST",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "delete_attribute",
+      "endpoint": "/v1/attributes/platform/{platform_id}/attribute/{attribute_id}",
+      "backend": "http://htone-attributes:8088",
+      "path": "/attributes/platform/{platform_id}/attribute/{attribute_id}",
+      "method": "DELETE",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "delete_attributes",
+      "endpoint": "/v1/attributes/platform/{platform_id}",
+      "backend": "http://htone-attributes:8088",
+      "path": "/attributes/platform/{platform_id}",
+      "method": "DELETE",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_platform_attributes",
+      "endpoint": "/v1/attributes/platform/{platform_id}",
+      "backend": "http://htone-attributes:8088",
+      "path": "/attributes/platform/{platform_id}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "create_feedback",
+      "endpoint": "/v1/feedbacks",
+      "backend": "http://htone-feedback:8087",
+      "path": "/feedbacks",
+      "method": "POST",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "create_dictionary",
+      "endpoint": "/v1/dictionaries",
+      "backend": "http://htone-dictionaries:8084",
+      "path": "/dictionaries",
+      "method": "POST",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "append_dictionary",
+      "endpoint": "/v1/dictionaries/{mnemonic}",
+      "backend": "http://htone-dictionaries:8084",
+      "path": "/dictionaries/{mnemonic}",
+      "method": "PUT",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "delete_dictionary",
+      "endpoint": "/v1/dictionaries/{mnemonic}",
+      "backend": "http://htone-dictionaries:8084",
+      "path": "/dictionaries/{mnemonic}",
+      "method": "DELETE",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    }
+  ]
+}

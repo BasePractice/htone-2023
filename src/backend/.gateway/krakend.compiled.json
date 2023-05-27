@@ -1,0 +1,4001 @@
+{
+  "$schema": "https://www.krakend.io/schema/v3.json",
+  "version": 3,
+  "name": "Gateway API",
+  "extra_config": {
+    "telemetry/logging": {
+      "level": "INFO",
+      "prefix": "[KRAKEND]",
+      "syslog": false,
+      "stdout": true,
+      "format": "default"
+    },
+    "telemetry/metrics": {
+      "collection_time": "60s",
+      "proxy_disabled": false,
+      "router_disabled": false,
+      "backend_disabled": false,
+      "endpoint_disabled": false,
+      "listen_address": ":8090"
+    }
+  },
+  "timeout": "30000ms",
+  "cache_ttl": "30s",
+  "output_encoding": "json",
+  "port": 8080,
+  "debug_endpoint": true,
+  "endpoints": [
+    {
+        "endpoint": "/v1/me",
+        "method": "GET",
+        "output_encoding": "json",
+        "timeout": "10s",
+        "input_headers": [
+            "User-Agent",
+            "Authorization",
+            "X-User",
+            "X-User-Name",
+            "X-User-Preferred-Name",
+            "X-User-Email",
+            "X-Roles",
+            "Content-Type",
+            "Cookie",
+            "Set-Cookie"
+        ],
+        "headers_to_pass": [
+            "*"
+        ],
+        "backend": [
+            {
+                "url_pattern": "/users/me",
+                "method": "GET",
+                "encoding": "safejson",
+                "disable_host_sanitize": false,
+                "host": [
+                    "http://htone-users:8082"
+                ],
+                "extra_config": {
+                    "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+                }
+            },
+            {
+                "url_pattern": "/companies/me",
+                "method": "GET",
+                "encoding": "safejson",
+                "disable_host_sanitize": false,
+                "is_collection": true,
+                "host": [
+                    "http://htone-orgs:8083"
+                ],
+                "extra_config": {
+                    "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+                },
+                "mapping": {
+                    "collection": "companies"
+                }
+            },
+            {
+                "url_pattern": "/booking/me",
+                "method": "GET",
+                "encoding": "safejson",
+                "disable_host_sanitize": false,
+                "is_collection": true,
+                "host": [
+                    "http://htone-booking:8086"
+                ],
+                "extra_config": {
+                    "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+                },
+                "mapping": {
+                    "collection": "bookings"
+                }
+            }
+        ],
+        "extra_config": {
+            "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+        }
+    },
+    
+    
+    {
+    "endpoint": "/v1/files",
+    "method": "POST",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/files",
+            "method": "POST",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-files:8081"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/files",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/files",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-files:8081"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/files/content/{id}",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/files/{id}/content",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-files:8081"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/files/metadata/{id}",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/files/{id}/metadata",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-files:8081"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/files/{id}",
+    "method": "DELETE",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/files/{id}",
+            "method": "DELETE",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-files:8081"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/files/create-link/{id}",
+    "method": "POST",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/files/create-link/{id}",
+            "method": "POST",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-files:8081"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/users",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/users",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-users:8082"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/users/{user_id}",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/users/{user_id}",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-users:8082"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/platforms/role/{role}",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/platforms/role/{role}",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-platforms:8085"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/platforms/{id}",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/platforms/{id}",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-platforms:8085"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/platforms/service/dict/types",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/platforms/service/dict/types",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-platforms:8085"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/platforms/{id}/services",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/platforms/{id}/services",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-platforms:8085"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/platforms/{id}/services",
+    "method": "POST",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/platforms/{id}/services",
+            "method": "POST",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-platforms:8085"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/platforms/{id}/services/{service_id}",
+    "method": "DELETE",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/platforms/{id}/services/{service_id}",
+            "method": "DELETE",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-platforms:8085"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/platforms/company/{company_id}/{role}",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/platforms/company/{company_id}/{role}",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-platforms:8085"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/platforms",
+    "method": "POST",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/platforms",
+            "method": "POST",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-platforms:8085"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/platforms/verify/{id}",
+    "method": "PUT",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/platforms/verify/{id}",
+            "method": "PUT",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-platforms:8085"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/platforms/deactivate/{id}",
+    "method": "PUT",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/platforms/deactivate/{id}",
+            "method": "PUT",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-platforms:8085"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/platforms/activate/{id}",
+    "method": "PUT",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/platforms/activate/{id}",
+            "method": "PUT",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-platforms:8085"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/platforms/{id}",
+    "method": "DELETE",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/platforms/{id}",
+            "method": "DELETE",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-platforms:8085"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/platforms/{id}",
+    "method": "PUT",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/platforms/{id}",
+            "method": "PUT",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-platforms:8085"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/platforms/assign/{platform_id}/owner/{user_id}",
+    "method": "PUT",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/platforms/assign/{platform_id}/owner/{user_id}",
+            "method": "PUT",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-platforms:8085"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/platforms/attachment/{platform_id}/create/{attachment_id}",
+    "method": "PUT",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/platforms/attachment/{platform_id}/file/{attachment_id}",
+            "method": "PUT",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-platforms:8085"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/platforms/attachment/{platform_id}/file",
+    "method": "POST",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/platforms/attachment/{platform_id}/file",
+            "method": "POST",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-platforms:8085"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/platforms/attachment/{platform_id}/delete/{attachment_id}",
+    "method": "DELETE",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/platforms/attachment/{platform_id}/file/{attachment_id}",
+            "method": "DELETE",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-platforms:8085"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/companies",
+    "method": "POST",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/companies",
+            "method": "POST",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-orgs:8083"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/companies/{company_id}",
+    "method": "PUT",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/companies/{company_id}",
+            "method": "PUT",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-orgs:8083"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/companies/{id}",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/companies/{id}",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-orgs:8083"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/companies/{id}",
+    "method": "DELETE",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/companies/{id}",
+            "method": "DELETE",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-orgs:8083"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/companies/verify/{company_id}",
+    "method": "PUT",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/companies/verify/{company_id}",
+            "method": "PUT",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-orgs:8083"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/companies/role/{role}",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/companies/role/{role}",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-orgs:8083"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/companies/attach/{company_id}/employee/{employee_id}",
+    "method": "PUT",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/companies/attach/{company_id}/employee/{employee_id}",
+            "method": "PUT",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-orgs:8083"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/companies/attach/{company_id}/employee/{employee_id}",
+    "method": "DELETE",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/companies/attach/{company_id}/employee/{employee_id}",
+            "method": "DELETE",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-orgs:8083"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/booking",
+    "method": "POST",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/booking",
+            "method": "POST",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-booking:8086"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/booking/{id}",
+    "method": "DELETE",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/booking/{id}",
+            "method": "DELETE",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-booking:8086"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/booking/platforms/{id}",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/booking/platforms/{id}",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-booking:8086"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/attributes/platform/{platform_id}",
+    "method": "POST",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/attributes/platform/{platform_id}",
+            "method": "POST",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-attributes:8088"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/attributes/platform/{platform_id}/attribute/{attribute_id}",
+    "method": "DELETE",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/attributes/platform/{platform_id}/attribute/{attribute_id}",
+            "method": "DELETE",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-attributes:8088"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/attributes/platform/{platform_id}",
+    "method": "DELETE",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/attributes/platform/{platform_id}",
+            "method": "DELETE",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-attributes:8088"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/attributes/platform/{platform_id}",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/attributes/platform/{platform_id}",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-attributes:8088"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/feedbacks",
+    "method": "POST",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/feedbacks",
+            "method": "POST",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-feedback:8087"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/dictionaries",
+    "method": "POST",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/dictionaries",
+            "method": "POST",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-dictionaries:8084"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/dictionaries/{mnemonic}",
+    "method": "PUT",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/dictionaries/{mnemonic}",
+            "method": "PUT",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-dictionaries:8084"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/dictionaries/{mnemonic}",
+    "method": "DELETE",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/dictionaries/{mnemonic}",
+            "method": "DELETE",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-dictionaries:8084"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    ,
+
+    
+    
+    {
+    "endpoint": "/v1/files/open-link/{id}",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/files/open-link/{id}",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-files:8081"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ]}
+    
+    ,
+    {
+    "endpoint": "/v1/files/open-link/{id}/metadata",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/files/open-link/{id}/metadata",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-files:8081"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ]}
+    
+    ,
+    {
+    "endpoint": "/v1/files/dict/kinds",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/files/dict/kinds",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-files:8081"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ]}
+    
+    ,
+    {
+    "endpoint": "/v1/files/dict/types",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/files/dict/types",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-files:8081"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ]}
+    
+    ,
+    {
+    "endpoint": "/v1/companies/dict/employee_types",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/companies/dict/employee_types",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-orgs:8083"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ]}
+    
+    ,
+    {
+    "endpoint": "/v1/companies/dict/org_types",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/companies/dict/org_types",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-orgs:8083"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ]}
+    
+    ,
+    {
+    "endpoint": "/v1/open/companies/{id}",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/companies/{id}/open",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-orgs:8083"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ]}
+    
+    ,
+    {
+    "endpoint": "/v1/open/platforms",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/open/platforms",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-platforms:8085"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ]}
+    
+    ,
+    {
+    "endpoint": "/v1/open/platforms/{id}",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/open/platforms/{id}",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-platforms:8085"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ]}
+    
+    ,
+    {
+    "endpoint": "/v1/open/files/content/{id}",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/files/{id}/content/open",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-files:8081"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ]}
+    
+    ,
+    {
+    "endpoint": "/v1/open/attributes/platform/{platform_id}",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/attributes/platform/{platform_id}/open",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-attributes:8088"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ]}
+    
+    ,
+    {
+    "endpoint": "/v1/attributes/search/platforms",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/attributes/search/platforms",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-attributes:8088"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ]}
+    
+    ,
+    {
+    "endpoint": "/v1/open/feedbacks/platforms/{platform_id}",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/open/feedbacks/platforms/{platform_id}",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-feedback:8087"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ]}
+    
+    ,
+    {
+    "endpoint": "/v1/open/dictionaries",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/open/dictionaries",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-dictionaries:8084"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ]}
+    
+    ,
+    {
+    "endpoint": "/v1/open/dictionaries/{mnemonic}",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/open/dictionaries/{mnemonic}",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-dictionaries:8084"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ]}
+    
+  ]
+}

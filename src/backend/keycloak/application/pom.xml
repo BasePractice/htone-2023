@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>ru.research</groupId>
+        <artifactId>keycloak</artifactId>
+        <version>1.13.0.1</version>
+    </parent>
+    <artifactId>application</artifactId>
+    <packaging>ear</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>ru.research</groupId>
+            <artifactId>providers</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>application</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/application</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <filtering>true</filtering>
+                    <includeLibInApplicationXml>true</includeLibInApplicationXml>
+                    <generateModuleId>true</generateModuleId>
+                    <version>7</version>
+                    <modules>
+                        <jarModule>
+                            <groupId>ru.research</groupId>
+                            <artifactId>providers</artifactId>
+                            <bundleDir>modules</bundleDir>
+                            <includeInApplicationXml>true</includeInApplicationXml>
+                        </jarModule>
+                    </modules>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

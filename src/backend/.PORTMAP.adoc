@@ -1,0 +1,34 @@
+=== Сопоставление потов с сервисами
+
+|===
+|Порт |Сервис |Примечание
+
+|8180 |keycloak | Keycloak
+|8080 |gateway_api | Gateway REST API
+|8081 |file_service| Файловый сервис
+|8082 |user_service| Пользовательский сервис
+|8083 |orgs_service| Сервис организаций
+|8084 |dict_service| Сервис словарей
+|8085 |platform_service| Сервис платформы
+|8086 |booking_service| Сервис бронирования
+|8087 |feedback_service| Сервис отзывов
+|8088 |attribute_service| Сервис атрибутов
+|===
+
+=== Ошибки
+
+При возникновении ошибки
+
+[source,shell]
+----
+Error response from daemon: Ports are not available: exposing port TCP 0.0.0.0:9000 -> 0.0.0.0:0: listen tcp 0.0.0.0:9000: bind: An attempt was made to access a socket in a way forbidden by its access permissions.
+----
+следует отключить `net stop winnat`
+
+==== MINIO
+Если `minio` в контейнере не стартует по `access deniedё то следует папке `volume`
+назначить права для пользователя 1001
+[source,shell]
+----
+chown 1001:1001 ~/ht2023/volume/.minio/
+----

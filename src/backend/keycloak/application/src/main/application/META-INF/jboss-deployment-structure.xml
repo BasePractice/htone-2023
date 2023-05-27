@@ -1,0 +1,22 @@
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.3">
+    <deployment>
+        <dependencies>
+            <module name="org.postgresql.jdbc" export="true"/>
+            <module name="org.hibernate" export="true"/>
+            <module name="javax.ws.rs.api"/>
+            <module name="org.slf4j"/>
+            <module name="org.keycloak.keycloak-model-jpa" export="true"/>
+            <module name="org.keycloak.keycloak-core" export="true"/>
+            <module name="org.keycloak.keycloak-server-spi" export="true"/>
+            <module name="org.keycloak.keycloak-server-spi-private" export="true"/>
+            <module name="org.keycloak.keycloak-services" export="true"/>
+            <module name="org.keycloak.keycloak-ldap-federation" export="true"/>
+            <module name="org.keycloak.keycloak-model-infinispan" export="true"/>
+            <module name="org.keycloak.keycloak-ldap-federation" export="true"/>
+            <module name="org.infinispan" export="true"/>
+            <module name="org.infinispan.hibernate-cache" export="true"/>
+            <module name="com.oracle" export="true"/>
+            <module name="org.jboss.modules" export="true"/>
+        </dependencies>
+    </deployment>
+</jboss-deployment-structure>

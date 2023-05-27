@@ -1,0 +1,5 @@
+{
+  "gateway_api": "http://127.0.0.1:8080",
+  "file_service": "http://192.168.1.14:8081",
+  "user_service": "http://192.168.1.14:8082"
+}
