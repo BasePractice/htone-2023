@@ -39,7 +39,7 @@
     {
       "name": "get_org_employee_types",
       "endpoint": "/v1/companies/dict/employee_types",
-      "backend": "http://htone-orgs:8083",
+      "backend": "http://htone-companies:8083",
       "path": "/companies/dict/employee_types",
       "method": "GET",
       "output_encoding": "no-op",
@@ -48,7 +48,7 @@
     {
       "name": "get_org_types",
       "endpoint": "/v1/companies/dict/org_types",
-      "backend": "http://htone-orgs:8083",
+      "backend": "http://htone-companies:8083",
       "path": "/companies/dict/org_types",
       "method": "GET",
       "output_encoding": "no-op",
@@ -57,7 +57,7 @@
     {
       "name": "get_company",
       "endpoint": "/v1/open/companies/{id}",
-      "backend": "http://htone-orgs:8083",
+      "backend": "http://htone-companies:8083",
       "path": "/companies/{id}/open",
       "method": "GET",
       "output_encoding": "no-op",
@@ -365,7 +365,7 @@
     {
       "name": "create_company",
       "endpoint": "/v1/companies",
-      "backend": "http://htone-orgs:8083",
+      "backend": "http://htone-companies:8083",
       "path": "/companies",
       "method": "POST",
       "output_encoding": "no-op",
@@ -374,7 +374,7 @@
     {
       "name": "update_company",
       "endpoint": "/v1/companies/{company_id}",
-      "backend": "http://htone-orgs:8083",
+      "backend": "http://htone-companies:8083",
       "path": "/companies/{company_id}",
       "method": "PUT",
       "output_encoding": "no-op",
@@ -383,7 +383,7 @@
     {
       "name": "get_company",
       "endpoint": "/v1/companies/{id}",
-      "backend": "http://htone-orgs:8083",
+      "backend": "http://htone-companies:8083",
       "path": "/companies/{id}",
       "method": "GET",
       "output_encoding": "no-op",
@@ -392,7 +392,7 @@
     {
       "name": "delete_company",
       "endpoint": "/v1/companies/{id}",
-      "backend": "http://htone-orgs:8083",
+      "backend": "http://htone-companies:8083",
       "path": "/companies/{id}",
       "method": "DELETE",
       "output_encoding": "no-op",
@@ -401,7 +401,7 @@
     {
       "name": "verify_company",
       "endpoint": "/v1/companies/verify/{company_id}",
-      "backend": "http://htone-orgs:8083",
+      "backend": "http://htone-companies:8083",
       "path": "/companies/verify/{company_id}",
       "method": "PUT",
       "output_encoding": "no-op",
@@ -410,7 +410,7 @@
     {
       "name": "get_companies_by_roles",
       "endpoint": "/v1/companies/role/{role}",
-      "backend": "http://htone-orgs:8083",
+      "backend": "http://htone-companies:8083",
       "path": "/companies/role/{role}",
       "method": "GET",
       "output_encoding": "no-op",
@@ -419,7 +419,7 @@
     {
       "name": "create_attach_company",
       "endpoint": "/v1/companies/attach/{company_id}/employee/{employee_id}",
-      "backend": "http://htone-orgs:8083",
+      "backend": "http://htone-companies:8083",
       "path": "/companies/attach/{company_id}/employee/{employee_id}",
       "method": "PUT",
       "output_encoding": "no-op",
@@ -428,7 +428,7 @@
     {
       "name": "delete_attach_company",
       "endpoint": "/v1/companies/attach/{company_id}/employee/{employee_id}",
-      "backend": "http://htone-orgs:8083",
+      "backend": "http://htone-companies:8083",
       "path": "/companies/attach/{company_id}/employee/{employee_id}",
       "method": "DELETE",
       "output_encoding": "no-op",

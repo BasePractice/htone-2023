@@ -90,7 +90,7 @@ async def create_platform_attributes(
                 raise BasicException(DATABASE_ENTITY_NOT_FOUND, "PlatformModel", platform_id)
 
             for attribute_model in attribute_models:
-                stmt = postgresql_upsert(AttributeModel).items(
+                stmt = postgresql_upsert(AttributeModel).values(
                     [{"id": str(uuid.uuid4()), "creator": x_user, "name": attribute_model.name}]).returning(
                     AttributeModel.id)
                 stmt = stmt.on_conflict_do_update(index_elements=(AttributeModel.name,),
@@ -103,7 +103,7 @@ async def create_platform_attributes(
                 if attribute_id is None:
                     raise BasicException(INTERNAL_ERROR_CANT_CREATE_OBJECT, "AttributeModel")
                 db.flush()
-                stmt = postgresql_upsert(PlatformAttributeModel).items(
+                stmt = postgresql_upsert(PlatformAttributeModel).values(
                     [{
                         "id": str(uuid.uuid4()),
                         "creator": x_user,

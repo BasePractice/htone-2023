@@ -68,7 +68,7 @@
                 "disable_host_sanitize": false,
                 "is_collection": true,
                 "host": [
-                    "http://htone-orgs:8083"
+                    "http://htone-companies:8083"
                 ],
                 "extra_config": {
                     "qos/ratelimit/proxy": {
@@ -2093,7 +2093,7 @@
             "encoding": "no-op",
             "disable_host_sanitize": false,
             "host": [
-                "http://htone-orgs:8083"
+                "http://htone-companies:8083"
             ],
             "extra_config": {
                 "qos/ratelimit/proxy": {
@@ -2170,7 +2170,7 @@
             "encoding": "no-op",
             "disable_host_sanitize": false,
             "host": [
-                "http://htone-orgs:8083"
+                "http://htone-companies:8083"
             ],
             "extra_config": {
                 "qos/ratelimit/proxy": {
@@ -2247,7 +2247,7 @@
             "encoding": "no-op",
             "disable_host_sanitize": false,
             "host": [
-                "http://htone-orgs:8083"
+                "http://htone-companies:8083"
             ],
             "extra_config": {
                 "qos/ratelimit/proxy": {
@@ -2324,7 +2324,7 @@
             "encoding": "no-op",
             "disable_host_sanitize": false,
             "host": [
-                "http://htone-orgs:8083"
+                "http://htone-companies:8083"
             ],
             "extra_config": {
                 "qos/ratelimit/proxy": {
@@ -2401,7 +2401,7 @@
             "encoding": "no-op",
             "disable_host_sanitize": false,
             "host": [
-                "http://htone-orgs:8083"
+                "http://htone-companies:8083"
             ],
             "extra_config": {
                 "qos/ratelimit/proxy": {
@@ -2478,7 +2478,7 @@
             "encoding": "no-op",
             "disable_host_sanitize": false,
             "host": [
-                "http://htone-orgs:8083"
+                "http://htone-companies:8083"
             ],
             "extra_config": {
                 "qos/ratelimit/proxy": {
@@ -2555,7 +2555,7 @@
             "encoding": "no-op",
             "disable_host_sanitize": false,
             "host": [
-                "http://htone-orgs:8083"
+                "http://htone-companies:8083"
             ],
             "extra_config": {
                 "qos/ratelimit/proxy": {
@@ -2632,7 +2632,7 @@
             "encoding": "no-op",
             "disable_host_sanitize": false,
             "host": [
-                "http://htone-orgs:8083"
+                "http://htone-companies:8083"
             ],
             "extra_config": {
                 "qos/ratelimit/proxy": {
@@ -3676,7 +3676,7 @@
             "encoding": "no-op",
             "disable_host_sanitize": false,
             "host": [
-                "http://htone-orgs:8083"
+                "http://htone-companies:8083"
             ],
             "extra_config": {
                 "qos/ratelimit/proxy": {
@@ -3707,7 +3707,7 @@
             "encoding": "no-op",
             "disable_host_sanitize": false,
             "host": [
-                "http://htone-orgs:8083"
+                "http://htone-companies:8083"
             ],
             "extra_config": {
                 "qos/ratelimit/proxy": {
@@ -3738,7 +3738,7 @@
             "encoding": "no-op",
             "disable_host_sanitize": false,
             "host": [
-                "http://htone-orgs:8083"
+                "http://htone-companies:8083"
             ],
             "extra_config": {
                 "qos/ratelimit/proxy": {

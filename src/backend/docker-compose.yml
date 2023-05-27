@@ -135,7 +135,7 @@ services:
     volumes:
       - ${SOURCES_DIRECTORY}:/app
     command: [ "/app/file_service/main.py" ]
-  htone-orgs:
+  htone-companies:
     depends_on:
       postgres-db:
         condition: service_healthy
@@ -153,7 +153,7 @@ services:
       - '8083:8083'
     volumes:
       - ${SOURCES_DIRECTORY}:/app
-    command: [ "/app/orgs_service/main.py" ]
+    command: [ "/app/companies_service/main.py" ]
   htone-platforms:
     depends_on:
       postgres-db:
