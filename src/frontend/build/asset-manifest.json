@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/static/css/main.801fbb9c.css",
+    "main.js": "/static/js/main.d68861bb.js",
+    "static/media/CeraPro-Medium.ttf": "/static/media/CeraPro-Medium.ee3e268e11a318d8f89f.ttf",
+    "static/media/background.jpg": "/static/media/background.12d65b88884a82f10a9f.jpg",
+    "static/media/telegram.svg": "/static/media/telegram.d18969a25ec7e90b41181173555e7b83.svg",
+    "static/media/vk.svg": "/static/media/vk.3ec28e81a5b08a1aec6f2f7a0c5dec93.svg",
+    "index.html": "/index.html",
+    "main.801fbb9c.css.map": "/static/css/main.801fbb9c.css.map",
+    "main.d68861bb.js.map": "/static/js/main.d68861bb.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.801fbb9c.css",
+    "static/js/main.d68861bb.js"
+  ]
+}

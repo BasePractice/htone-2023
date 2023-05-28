@@ -1,0 +1,59 @@
+/*@import url('../fonts/CeraPro-Medium.ttf');*/
+
+@font-face {
+    font-family: "CeraPro";
+    src: local("CeraPro"), url("../fonts/CeraPro-Medium.ttf") format("truetype");
+    font-weight: normal;
+}
+
+/* start свой скролл*/
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #0C1522 #2C495E;
+}
+
+*::-webkit-scrollbar {
+    height: 12px;
+    width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #2C495E;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #0C1522;
+    border-radius: 5px;
+    border: 3px solid #2C495E;
+}
+
+/* end свой скролл*/
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+body {
+    background-image: url('../images/background.jpg');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+h1 {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 64px;
+    line-height: 87px;
+    letter-spacing: 0.04em;
+}
+
+.ymaps-2-1-79-ground-pane {
+    filter: grayscale(1) invert(100%);
+}
