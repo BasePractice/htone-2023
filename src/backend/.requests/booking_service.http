@@ -214,6 +214,26 @@ Authorization: Bearer {{tonant-access_token}}
     });
 %}
 
+### Получение заказов
+GET {{gateway_url}}/booking/groups/platforms/{{platform_id}}
+Authorization: Bearer {{landlord-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
+### Получение заказа
+GET {{gateway_url}}/booking/platforms/groups/{{platform_booking_group_id}}
+Authorization: Bearer {{landlord-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+
 ### Получение информации о пользователе (TONANT)
 GET {{gateway_url}}/me
 Authorization: Bearer {{tonant-access_token}}

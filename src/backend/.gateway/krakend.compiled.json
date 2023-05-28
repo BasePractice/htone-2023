@@ -2916,6 +2916,391 @@
     
     ,
     {
+    "endpoint": "/v1/booking/groups/platforms/{platform_id}",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/booking/groups/platforms/{platform_id}",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-booking:8086"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/booking/platforms/groups/{group_id}",
+    "method": "GET",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/booking/platforms/groups/{group_id}",
+            "method": "GET",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-booking:8086"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/booking/groups/{group_id}/items/{item_id}",
+    "method": "DELETE",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/booking/groups/{group_id}/items/{item_id}",
+            "method": "DELETE",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-booking:8086"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/booking/groups/{group_id}/items/{item_id}/services/{service_id}",
+    "method": "DELETE",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/booking/groups/{group_id}/items/{item_id}/services/{service_id}",
+            "method": "DELETE",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-booking:8086"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/booking/groups/{group_id}/services/{service_id}",
+    "method": "DELETE",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/booking/groups/{group_id}/services/{service_id}",
+            "method": "DELETE",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-booking:8086"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
+    ],
+    [
+      "preferred_username",
+      "X-User-Preferred-Name"
+    ],
+    [
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "realm_access.roles",
+      "X-Roles"
+    ],
+    [
+      "resource_access.leader2023.roles",
+      "X-Resource-Roles"
+    ],
+    [
+      "resource_access.htone2023.roles",
+      "X-Resource-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
     "endpoint": "/v1/attributes/platform/{platform_id}",
     "method": "POST",
     "output_encoding": "no-op",

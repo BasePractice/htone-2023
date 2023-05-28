@@ -462,6 +462,51 @@
       "encoding": "no-op"
     },
     {
+      "name": "get_booking_groups",
+      "endpoint": "/v1/booking/groups/platforms/{platform_id}",
+      "backend": "http://htone-booking:8086",
+      "path": "/booking/groups/platforms/{platform_id}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "get_booking_group",
+      "endpoint": "/v1/booking/platforms/groups/{group_id}",
+      "backend": "http://htone-booking:8086",
+      "path": "/booking/platforms/groups/{group_id}",
+      "method": "GET",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "delete_booking_group_item",
+      "endpoint": "/v1/booking/groups/{group_id}/items/{item_id}",
+      "backend": "http://htone-booking:8086",
+      "path": "/booking/groups/{group_id}/items/{item_id}",
+      "method": "DELETE",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "delete_booking_group_item_service",
+      "endpoint": "/v1/booking/groups/{group_id}/items/{item_id}/services/{service_id}",
+      "backend": "http://htone-booking:8086",
+      "path": "/booking/groups/{group_id}/items/{item_id}/services/{service_id}",
+      "method": "DELETE",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
+      "name": "delete_booking_group_service",
+      "endpoint": "/v1/booking/groups/{group_id}/services/{service_id}",
+      "backend": "http://htone-booking:8086",
+      "path": "/booking/groups/{group_id}/services/{service_id}",
+      "method": "DELETE",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
+    },
+    {
       "name": "create_attributes",
       "endpoint": "/v1/attributes/platform/{platform_id}",
       "backend": "http://htone-attributes:8088",

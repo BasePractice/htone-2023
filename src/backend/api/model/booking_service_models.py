@@ -10,5 +10,6 @@ class BookingModel(BaseModel):
 
 
 class BookingGroupModel(BaseModel):
+    id: str | None
     items: list
     services: list | None
