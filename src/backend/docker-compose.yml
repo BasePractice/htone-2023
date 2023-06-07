@@ -311,3 +311,17 @@ services:
     volumes:
       - ${SOURCES_DIRECTORY}:/app
     command: [ "/app/notification_gate_job/main.py" ]
+  htone-telegram:
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    image: sigma/hton_bucket:latest
+    environment:
+      - PG_USERNAME=postgres
+      - PG_PASSWORD=postgreHTone_042023
+      - PG_HOSTNAME=postgres-db
+      - PG_DATABASE=htone_042023
+      - API_GATEWAY_URL=${API_GATEWAY_URL}
+    volumes:
+      - ${SOURCES_DIRECTORY}:/app
+    command: [ "/app/telegram_service/main.py" ]

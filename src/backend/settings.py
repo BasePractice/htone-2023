@@ -40,17 +40,21 @@ MAIL_USERNAME = os.getenv("MAIL_USERNAME", "sigmas@internet.ru")
 MAIL_PASSWORD = os.getenv("MAIL_PASSWORD", "gE0B7GJms0vn0s7d0kWq")
 MAIL_FROM_ADDRESS = os.getenv("MAIL_FROM_ADDRESS", "sigmas@internet.ru")
 
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN2", "5992276346:AAEG8t_148tLWcA7RZnkZaYV30XnMhlZDTQ")
+
 LOGLEVEL = os.getenv('LOGLEVEL', 'INFO')
 
 API_GATEWAY_URL = os.getenv("API_GATEWAY_URL", "http://192.168.1.14:8080/api/v1")
 # API_GATEWAY_URL = os.getenv("API_GATEWAY_URL", "https://cluster.sigm-a.ru/api/v1")
 INTERNAL_FILE_SERVICE = os.getenv("INTERNAL_FILE_SERVICE", "http://htone-files:8081")
 INTERNAL_USER_SERVICE = os.getenv("INTERNAL_USER_SERVICE", "http://htone-users:8082")
-INTERNAL_ORGS_SERVICE = os.getenv("INTERNAL_ORGS_SERVICE", "http://htone-orgs:8083")
-INTERNAL_DICT_SERVICE = os.getenv("INTERNAL_DICT_SERVICE", "http://htone-dict:8084")
+INTERNAL_COMPANIES_SERVICE = os.getenv("INTERNAL_COMPANIES_SERVICE", "http://htone-companies:8083")
+INTERNAL_DICTIONARY_SERVICE = os.getenv("INTERNAL_DICTIONARY_SERVICE", "http://htone-dictionaries:8084")
 INTERNAL_PLATFORM_SERVICE = os.getenv("INTERNAL_PLATFORM_SERVICE", "http://htone-platforms:8085")
 INTERNAL_BOOKING_SERVICE = os.getenv("INTERNAL_BOOKING_SERVICE", "http://htone-booking:8086")
+INTERNAL_FEEDBACK_SERVICE = os.getenv("INTERNAL_FEEDBACK_SERVICE", "http://htone-feedback:8087")
 INTERNAL_ATTRIBUTE_SERVICE = os.getenv("INTERNAL_ATTRIBUTE_SERVICE", "http://htone-attributes:8088")
+INTERNAL_NOTIFICATION_SERVICE = os.getenv("INTERNAL_NOTIFICATION_SERVICE", "http://htone-notifications:8089")
 
 OPENAPI_CONTACT = {
     "name": "Разработчики",
