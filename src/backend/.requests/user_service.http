@@ -7,6 +7,42 @@ Authorization: Bearer {{tonant-access_token}}
         client.assert(response.status === 200, "Response status is not 200");
     });
 %}
+### Проверка кеширования (TONANT)
+GET {{gateway_url}}/me
+Authorization: Bearer {{tonant-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+### Проверка кеширования (TONANT)
+GET {{gateway_url}}/me
+Authorization: Bearer {{tonant-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+### Проверка кеширования (TONANT)
+GET {{gateway_url}}/me
+Authorization: Bearer {{tonant-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+### Проверка кеширования (TONANT)
+GET {{gateway_url}}/me
+Authorization: Bearer {{tonant-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
 ### Получение информации о пользователе (LANDLORD)
 GET {{gateway_url}}/me
 Authorization: Bearer {{landlord-access_token}}
@@ -34,7 +70,61 @@ Authorization: Bearer {{admin-access_token}}
         client.assert(response.status === 200, "Response status is not 200");
     });
 %}
+### Получение спика пользователей (CACHE)
+GET {{gateway_url}}/users
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+### Получение спика пользователей (CACHE)
+GET {{gateway_url}}/users
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+### Получение спика пользователей (CACHE)
+GET {{gateway_url}}/users
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
 ### Получение пользователя по идентификатору
+GET {{gateway_url}}/users/{{tonant-user_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+### Получение пользователя по идентификатору (CACHE)
+GET {{gateway_url}}/users/{{tonant-user_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+### Получение пользователя по идентификатору (CACHE)
+GET {{gateway_url}}/users/{{tonant-user_id}}
+Authorization: Bearer {{admin-access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+%}
+### Получение пользователя по идентификатору (CACHE)
 GET {{gateway_url}}/users/{{tonant-user_id}}
 Authorization: Bearer {{admin-access_token}}
 

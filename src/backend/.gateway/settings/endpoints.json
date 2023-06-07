@@ -577,6 +577,15 @@
       "method": "DELETE",
       "output_encoding": "no-op",
       "encoding": "no-op"
+    },
+    {
+      "name": "create_notification",
+      "endpoint": "/v1/notifications",
+      "backend": "http://htone-notifications:8089",
+      "path": "/notifications",
+      "method": "POST",
+      "output_encoding": "no-op",
+      "encoding": "no-op"
     }
   ]
 }

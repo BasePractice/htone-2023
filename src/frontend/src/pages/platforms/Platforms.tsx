@@ -35,6 +35,11 @@ function Platforms() {
         setOpenModal(false);
     };
 
+    const clearFilters = () => {
+        setFilters(defaultFilters);
+        setLocalPlatformsList(platformsList);
+    };
+
     useEffect(() => {
         (async () => {
             await getPlatformsOpen();
@@ -77,11 +82,22 @@ function Platforms() {
                     variant="contained"
                     onClick={() => setOpenModal(true)}
                     sx={{
+                        mr: '20px',
                         color: colors.white
                     }}
                 >
                     фильтр
                 </Button>
+                {filters.category && <Button
+                    size="large"
+                    variant="outlined"
+                    sx={{
+                        fontSize: '17px'
+                    }}
+                    onClick={() => clearFilters()}
+                >
+                    очистить фильтр
+                </Button>}
             </Box>
             {viewType === EViewType.MAP ?
                 <PlatformsYandexMapComponent platformsList={localPlatformsList}/> :

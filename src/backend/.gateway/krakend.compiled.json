@@ -126,16 +126,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -204,16 +196,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -281,16 +265,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -358,16 +334,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -435,16 +403,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -512,16 +472,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -589,16 +541,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -666,16 +610,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -743,16 +679,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -820,16 +748,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -897,16 +817,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -974,16 +886,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -1051,16 +955,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -1128,16 +1024,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -1205,16 +1093,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -1282,16 +1162,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -1359,16 +1231,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -1436,16 +1300,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -1513,16 +1369,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -1590,16 +1438,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -1667,16 +1507,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -1744,16 +1576,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -1821,16 +1645,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -1898,16 +1714,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -1975,16 +1783,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -2052,16 +1852,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -2129,16 +1921,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -2206,16 +1990,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -2283,16 +2059,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -2360,16 +2128,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -2437,16 +2197,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -2514,16 +2266,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -2591,16 +2335,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -2668,16 +2404,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -2745,16 +2473,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -2822,16 +2542,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -2899,16 +2611,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -2976,16 +2680,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -3053,16 +2749,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -3130,16 +2818,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -3207,16 +2887,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -3284,16 +2956,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -3361,16 +3025,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -3438,16 +3094,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -3515,16 +3163,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -3592,16 +3232,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -3669,16 +3301,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -3746,16 +3370,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -3823,16 +3439,8 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
-    ],
-    [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
-    ],
-    [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
     ]
   ]
 }
@@ -3900,16 +3508,77 @@
       "X-User-Email"
     ],
     [
-      "realm_access.roles",
+      "role_choise",
       "X-Roles"
+    ]
+  ]
+}
+    }}
+    
+    ,
+    {
+    "endpoint": "/v1/notifications",
+    "method": "POST",
+    "output_encoding": "no-op",
+    "timeout": "10s",
+    "input_headers": [
+        "User-Agent",
+        "Authorization",
+        "X-User",
+        "X-User-Name",
+        "X-User-Preferred-Name",
+        "X-User-Email",
+        "X-Roles",
+        "Content-Type"
+    ],
+    "input_query_strings":[
+      "*"
+    ],
+    "backend": [
+        {
+            "url_pattern": "/notifications",
+            "method": "POST",
+            "encoding": "no-op",
+            "disable_host_sanitize": false,
+            "host": [
+                "http://htone-notifications:8089"
+            ],
+            "extra_config": {
+                "qos/ratelimit/proxy": {
+    "max_rate": 1000,
+    "capacity": 1000
+}
+            }
+        }
+    ],
+    "extra_config": {
+        "auth/validator": {
+  "alg": "RS256",
+  "jwk_url": "https://cluster.sigm-a.ru:8443/realms/sigm-a/protocol/openid-connect/certs",
+  "issuer": "https://cluster.sigm-a.ru:8443/realms/sigm-a",
+  "scopes": [
+    "openid"
+  ],
+  "disable_jwk_security": true,
+  "cookie_key": "X-Token",
+  "cache": true,
+  "operation_debug": true,
+  "propagate_claims": [
+    [
+      "sub",
+      "X-User"
     ],
     [
-      "resource_access.leader2023.roles",
-      "X-Resource-Roles"
+      "preferred_username",
+      "X-User-Preferred-Name"
     ],
     [
-      "resource_access.htone2023.roles",
-      "X-Resource-Roles"
+      "email",
+      "X-User-Email"
+    ],
+    [
+      "role_choise",
+      "X-Roles"
     ]
   ]
 }

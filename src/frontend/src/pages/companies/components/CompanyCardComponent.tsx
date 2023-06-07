@@ -63,7 +63,7 @@ function CompanyCardComponent ({isEdit, data, setOpenModal}: IComponentProps) {
             data: field,
             id: currentCompany.id ?? '',
             token: access_token,
-            method: currentCompany ?
+            method: currentCompany.id ?
                 EMethod.UPDATE :
                 EMethod.CREATE
         }).unwrap();

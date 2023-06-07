@@ -45,45 +45,68 @@ services:
       interval: 30s
       timeout: 20s
       retries: 3
+  redis:
+    image: 'redis:latest'
+    ports:
+      - '6379:6379'
+    healthcheck:
+      test: 'redis-cli ping || exit 1'
+      interval: 5s
+      timeout: 5s
+      retries: 3
+  kafka:
+    image: 'bitnami/kafka:latest'
+    ports:
+      - '9092:9092'
+    environment:
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+    volumes:
+      - ${VOLUME_DIRECTORY}/.kafka:/bitnami/kafka
+    healthcheck:
+      test: [ "CMD-SHELL", "kafka-topics.sh --bootstrap-server 127.0.0.1:9092 --topic notifications --describe" ]
+      interval: 2s
+      timeout: 2s
+      retries: 15
   # LINK: https://keycloak.discourse.group/t/need-help-to-start-with-keycloak-19-andpostgres-in-docker-compose/16749
   # LINK: https://habr.com/ru/articles/716232/
-#  keycloak:
-#    depends_on:
-#      postgres-db:
-#        condition: service_healthy
-#    image: quay.io/keycloak/keycloak:20.0.5
-#    #    image: quay.io/keycloak/keycloak:latest
-#    healthcheck:
-#      test: [ "CMD", "curl", "--fail", "http://0.0.0.0:8080/realms/master" ]
-#      interval: 5s
-#      timeout: 5s
-#      retries: 5
-#    environment:
-#      KC_DB: postgres
-#      KC_DB_USERNAME: postgres
-#      KC_DB_PASSWORD: postgreHTone_042023
-#      KC_DB_SCHEMA: keycloak
-#      KC_DB_URL_DATABASE: htone_042023
-#      KC_DB_URL_HOST: postgres-db
-#      KC_DB_URL_PORT: 5432
-#      KC_DB_URL_PROPERTIES: "?verifyServerCertificate=false&ssl=allow"
-#      KC_HTTP_ENABLED: "true"
-#      KC_HTTP_PORT: 8080
-#      KC_METRICS_ENABLED: "true"
-#      KEYCLOAK_LOGLEVEL: DEBUG
-#      #      KEYCLOAK_ADMIN: admin
-#      #      KEYCLOAK_ADMIN_PASSWORD: admin
-#      KC_FEATURES: preview,authorization,token-exchange,docker,impersonation,scripts,upload-scripts,web-authn,client-policies,dynamic-scopes
-#      PROXY_ADDRESS_FORWARDING: "true"
-#    ports:
-#      - '8180:8080'
-#    command:
-#      - start-dev
-#      - --import-realm
-#      - --spi-user-profile-legacy-user-profile-read-only-attributes *_RES_ACCESS_MODE
-#    volumes:
-#      - E:/GitHub/leaders2023/src/backend/keycloak/realm.json:/opt/keycloak/data/import/realm.json:ro
-#      - E:/GitHub/leaders2023/src/backend/keycloak/providers/target/providers.jar:/opt/keycloak/providers/hton_providers.jar:z
+  #  keycloak:
+  #    depends_on:
+  #      postgres-db:
+  #        condition: service_healthy
+  #    image: quay.io/keycloak/keycloak:20.0.5
+  #    #    image: quay.io/keycloak/keycloak:latest
+  #    healthcheck:
+  #      test: [ "CMD", "curl", "--fail", "http://0.0.0.0:8080/realms/master" ]
+  #      interval: 5s
+  #      timeout: 5s
+  #      retries: 5
+  #    environment:
+  #      KC_DB: postgres
+  #      KC_DB_USERNAME: postgres
+  #      KC_DB_PASSWORD: postgreHTone_042023
+  #      KC_DB_SCHEMA: keycloak
+  #      KC_DB_URL_DATABASE: htone_042023
+  #      KC_DB_URL_HOST: postgres-db
+  #      KC_DB_URL_PORT: 5432
+  #      KC_DB_URL_PROPERTIES: "?verifyServerCertificate=false&ssl=allow"
+  #      KC_HTTP_ENABLED: "true"
+  #      KC_HTTP_PORT: 8080
+  #      KC_METRICS_ENABLED: "true"
+  #      KEYCLOAK_LOGLEVEL: DEBUG
+  #      #      KEYCLOAK_ADMIN: admin
+  #      #      KEYCLOAK_ADMIN_PASSWORD: admin
+  #      KC_FEATURES: preview,authorization,token-exchange,docker,impersonation,scripts,upload-scripts,web-authn,client-policies,dynamic-scopes
+  #      PROXY_ADDRESS_FORWARDING: "true"
+  #    ports:
+  #      - '8180:8080'
+  #    command:
+  #      - start-dev
+  #      - --import-realm
+  #      - --spi-user-profile-legacy-user-profile-read-only-attributes *_RES_ACCESS_MODE
+  #    volumes:
+  #      - E:/GitHub/leaders2023/src/backend/keycloak/realm.json:/opt/keycloak/data/import/realm.json:ro
+  #      - E:/GitHub/leaders2023/src/backend/keycloak/providers/target/providers.jar:/opt/keycloak/providers/hton_providers.jar:z
   htone-migrate:
     depends_on:
       postgres-db:
@@ -103,6 +126,8 @@ services:
         condition: service_healthy
       minio:
         condition: service_healthy
+      redis:
+        condition: service_healthy
     image: sigma/hton_bucket:latest
     environment:
       - PG_USERNAME=postgres
@@ -111,6 +136,9 @@ services:
       - PG_DATABASE=htone_042023
       - API_GATEWAY_URL=${API_GATEWAY_URL}
       - MINIO_URL=minio:9000
+      - REDIS_URL=redis
+      - CACHE_USERS_EXPIRE=300
+      - CACHE_USERS_LIMITS=10000
     ports:
       - '8082:8082'
     volumes:
@@ -247,4 +275,39 @@ services:
       - '8084:8084'
     volumes:
       - ${SOURCES_DIRECTORY}:/app
-    command: [ "/app/dictionary_service/main.py" ]
+    command: [ "/app/notification_service/main.py" ]
+  htone-notifications:
+    depends_on:
+      kafka:
+        condition: service_healthy
+      postgres-db:
+        condition: service_healthy
+    image: sigma/hton_bucket:latest
+    environment:
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - KAFKA_NOTIFICATIONS_TOPIC=notifications
+      - API_GATEWAY_URL=${API_GATEWAY_URL}
+    ports:
+      - '8089:8089'
+    volumes:
+      - ${SOURCES_DIRECTORY}:/app
+    command: [ "/app/notification_service/main.py" ]
+  htone-notification-gate-job:
+    depends_on:
+      kafka:
+        condition: service_healthy
+      postgres-db:
+        condition: service_healthy
+    image: sigma/hton_bucket:latest
+    environment:
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - KAFKA_NOTIFICATIONS_TOPIC=notifications
+      - MAIL_HOSTNAME=smtp.mail.ru
+      - MAIL_USERNAME=sigmas@internet.ru
+      - MAIL_PASSWORD=gE0B7GJms0vn0s7d0kWq
+      - MAIL_FROM_ADDRESS=sigmas@internet.ru
+    ports:
+      - '8190:8190'
+    volumes:
+      - ${SOURCES_DIRECTORY}:/app
+    command: [ "/app/notification_gate_job/main.py" ]

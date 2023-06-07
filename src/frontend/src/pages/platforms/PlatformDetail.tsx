@@ -10,7 +10,6 @@ import {useAppDispatch, useAppSelector} from '../../app/store/store';
 import {theme} from '../../app/themes/customTheme';
 import {setNotificationAlert} from '../../common/alert/alertSlice';
 import DatePickerComponent from '../../common/components/DatePickerComponent';
-import TextBoxComponent from '../../common/components/TextBoxComponent';
 import {useCreateBookingMutation} from '../bookings/bookingsApiSlice';
 import {TItemBooking} from '../bookings/types';
 import NotFound from '../notFound/NotFound';
@@ -29,7 +28,7 @@ const style = {
     }
 };
 
-function PlatformDetail () {
+function PlatformDetail() {
     const params = useParams();
     const dispatch = useAppDispatch();
     const [getPlatformOpen] = useLazyGetPlatformOpenQuery();
@@ -79,7 +78,7 @@ function PlatformDetail () {
                     });
                     dayNumber++;
                 }
-                const response = access_token && await createBooking({
+                access_token && await createBooking({
                     data: {
                         items: itemsBooking
                     },
@@ -95,7 +94,7 @@ function PlatformDetail () {
             {
                 platform && <>
                     <Typography variant="h5" sx={{
-                        mb: 1,
+                        mb: 2,
                         mt: 4,
                         fontSize: 36,
                         [theme.breakpoints.down(769)]: {
@@ -120,6 +119,7 @@ function PlatformDetail () {
                     <Typography sx={{
                         mb: 3,
                         textDecoration: 'underline',
+                        width: 'fit-content',
                         '&:hover': {
                             textDecoration: 'none'
                         }
@@ -137,6 +137,7 @@ function PlatformDetail () {
                             }}
                             component={Link}
                             to={platform.url}
+                            target="_blank"
                         >
                             {platform.url}
                         </Button>
@@ -166,7 +167,7 @@ function PlatformDetail () {
                         {platform.address}
                     </Typography>
                     <Typography sx={{
-                        mb: '4px',
+                        mb: '12px',
                         fontWeight: '700'
                     }}>
                         Контакты:
@@ -174,10 +175,10 @@ function PlatformDetail () {
                     <Typography sx={{
                         mb: '4px',
                         ml: '6px',
-                        lineHeight: '24px',
+                        lineHeight: '20px',
                         color: '#757575'
                     }}>
-                        Телефон:
+                        Телефон: <br/>
                         <Button variant={'text'}
                             sx={{
                                 alignItems: 'center',
@@ -190,67 +191,69 @@ function PlatformDetail () {
                                 }
                             }}
                             component={Link}
-                            to={'mailto:' + platform.url}
+                            to={'tel:' + platform.phone}
                         >
-                            {platform.url}
+                            {platform.phone}
+                        </Button>
+                    </Typography>
+                    <Typography sx={{
+                        mb: 3,
+                        ml: '6px',
+                        lineHeight: '24px',
+                        color: '#757575'
+                    }}>
+                        Почта: <br/>
+                        <Button variant={'text'}
+                            sx={{
+                                alignItems: 'center',
+                                justifyContent: 'left',
+                                color: '#FFFFFF',
+                                fontWeight: '400',
+                                fontSize: '16px',
+                                [theme.breakpoints.down(769)]: {
+                                    fontSize: '15px'
+                                }
+                            }}
+                            component={Link}
+                            to={'mailto:' + platform.email}
+                        >
+                            {platform.email}
                         </Button>
                     </Typography>
 
-            
-                    <Box
-                        sx={{
-                            pt: 2
-                        }}
-                    >
-                        <Grid container
-                            columnSpacing={3}
-                            rowSpacing={4}
-                            columns={{
-                                xs: 3,
-                                md: 12,
-                                sm: 3,
-                            }}
-                            sx={style.gridSX}
-                        >
-                            <Grid item xs={4}>
-                                <TextBoxComponent
-                                    textKey="Телефон:"
-                                    textValue={platform.phone}
-                                />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <TextBoxComponent
-                                    textKey="Эл. почта:"
-                                    textValue={platform.email}
-                                />
-                            </Grid>
-                        </Grid>
-                        <Grid container
-                            columnSpacing={3}
-                            rowSpacing={4}
-                            columns={{
-                                xs: 3,
-                                md: 12,
-                                sm: 3,
-                            }}
-                            sx={style.gridSX}
-                        >
-                            {access_token && <Grid item xs={4}>
-                                <TextBoxComponent
-                                    textKey="Цена (в сутки)(руб):"
-                                    textValue={platform.unit_price}
-                                />
-                            </Grid>}
-                        </Grid>
-                    </Box>
+                    {access_token &&
+                        <Box>
+                            <Typography sx={{
+                                color: '#757575',
+                                mb: '4px'
+                            }}>
+                                Цена:
+                            </Typography>
+                            <Typography sx={{
+                                mb: 3,
+                                lineHeight: '26px',
+                                fontSize: '20px',
+                                ml: '2px',
+                                [theme.breakpoints.down(1025)]: {
+                                    fontSize: '20px',
+                                },
+                                [theme.breakpoints.down(769)]: {
+                                    fontSize: '18px',
+                                }
+                            }}>
+                                {platform.unit_price + ' руб/сутки'}
+                            </Typography>
+                        </Box>
+                    }
+
                     {access_token && <>
                         
                         <Typography variant="h6" sx={{
-                            mb: 3,
+                            mb: 2,
                             mt: 6,
                             fontSize: 24
                         }}>
-                        Выбор дат бронирования
+                            Выбор дат бронирования
                         </Typography>
                         <FormProvider {...methods}>
                             <Box
@@ -259,7 +262,7 @@ function PlatformDetail () {
                             >
                                 <Grid container
                                     columnSpacing={3}
-                                    rowSpacing={4}
+                                    rowSpacing={2.5}
                                     columns={{
                                         xs: 3,
                                         md: 12,
@@ -282,7 +285,6 @@ function PlatformDetail () {
                                                 width: '100%',
                                             }}
                                         />
-
                                     </Grid>
                                     <Grid item xs={3}>
                                         <DatePickerComponent
@@ -296,7 +298,7 @@ function PlatformDetail () {
                                             }}
                                         />
                                     </Grid>
-
+                                
                                 </Grid>
                                 <Button
                                     type="submit"
@@ -307,7 +309,7 @@ function PlatformDetail () {
                                         mb: 6
                                     }}
                                 >
-                                Забронировать
+                                    Забронировать
                                 </Button>
                             </Box>
                         </FormProvider>
@@ -315,7 +317,7 @@ function PlatformDetail () {
                 </>
             }
             {
-                platformNotFound && <NotFound />
+                platformNotFound && <NotFound/>
             }
         </>
     );

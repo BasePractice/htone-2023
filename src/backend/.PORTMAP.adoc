@@ -13,6 +13,8 @@
 |8086 |booking_service| Сервис бронирования
 |8087 |feedback_service| Сервис отзывов
 |8088 |attribute_service| Сервис атрибутов
+|8089 |notification_service| Сервис оповещения
+|8090 |notification_gate_job| Сервис обработки оповещений/обращений
 |===
 
 === Ошибки

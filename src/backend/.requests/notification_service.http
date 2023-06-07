@@ -1,0 +1,17 @@
+### Создание организации
+POST {{gateway_url}}/notifications
+Authorization: Bearer {{admin-access_token}}
+Content-Type: application/json;charset=utf-8
+
+{
+  "channel_types": ["EMAIL"],
+  "to": "viruszold@mail.ru",
+  "subject": "Проверочное сообщение",
+  "body": "Текст сообщения"
+}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 201, "Response status is not 201");
+    });
+%}

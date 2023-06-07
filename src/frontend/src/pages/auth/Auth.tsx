@@ -10,7 +10,6 @@ import ModalComponent from '../../common/modal/ModalComponent';
 import {getQuerySearch} from '../../common/utils/apiUtils';
 import {parseJWT, sendForAuthorization} from '../../common/utils/authUtils';
 import {IAnyObject} from '../platforms/types';
-import {getLeadingRole} from '../users/helpers';
 import {useLazyGetUserQuery} from '../users/userApiSlice';
 import {setUserLeadingRole} from '../users/userSlice';
 import {useLazyGetTokenQuery} from './authApiSlice';
@@ -50,13 +49,8 @@ function Auth() {
                     })).unwrap();
                     if (authSession && authSession.access_token) {
                         const data = parseJWT(authSession.access_token);
-                        console.log(data);
-                        // список ролей из токена
-                        const roles = data.resource_access[data.azp].roles.map((item: string) => ({
-                            name: item
-                        }));
                         getUser(authSession.access_token);
-                        dispatch(setUserLeadingRole(getLeadingRole(roles)));
+                        dispatch(setUserLeadingRole(data.role_choise));
                     }
                 } else {
                     // сохраняем адрес, который пытались открыть

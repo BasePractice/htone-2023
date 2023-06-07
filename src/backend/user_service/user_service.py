@@ -1,19 +1,18 @@
-import logging
-import os
 from typing import Annotated
 
-import requests
 from fastapi import Request, FastAPI, Header
 from fastapi.params import Depends
 from keycloak import KeycloakAdmin
 
 from api.model.user_service_models import UserModel, RoleModel
+from cache import BasicCache
 from common import resource_access, keycloak_admin, create_error_model, oauth2_scheme
-from settings import OPENAPI_TAGS, OPENAPI_LICENSE, OPENAPI_CONTACT, ROLE_ADMIN, KEYCLOAK_LOGIN_CLIENT_ID
+from settings import OPENAPI_TAGS, OPENAPI_LICENSE, OPENAPI_CONTACT, ROLE_ADMIN, KEYCLOAK_LOGIN_CLIENT_ID, \
+    CACHE_USERS_EXPIRE, CACHE_USERS_LIMITS
 
 app = FastAPI(
     title="UserService",
-    version="1.0.0.1",
+    version="1.0.0.2",
     contact=OPENAPI_CONTACT,
     license_info=OPENAPI_LICENSE,
     openapi_tags=OPENAPI_TAGS,
@@ -25,33 +24,48 @@ app = FastAPI(
     """,
 )
 
+users_cache = BasicCache(namespace='Users', expire=int(CACHE_USERS_EXPIRE), limit=int(CACHE_USERS_LIMITS))
+
 
 @app.exception_handler(Exception)
 async def http_exception_handler(_request: Request, ex: Exception):
     return create_error_model(_request, ex)
 
 
+def fetch_user(user_id: str) -> UserModel | None:
+    admin = keycloak_admin()
+    client_id = admin.get_client_id(KEYCLOAK_LOGIN_CLIENT_ID)
+    user = admin.get_user(user_id)
+    model = create_user_model(admin, client_id, user)
+    return model
+
+
+async def fetch_user_cached(user_id: str) -> UserModel | None:
+    return users_cache.fetch(user_id, fetch_user)
+
+
+def fetch_users(_key: str) -> list[UserModel] | None:
+    admin = keycloak_admin()
+    client_id = admin.get_client_id(KEYCLOAK_LOGIN_CLIENT_ID)
+    users = []
+    for user in admin.get_users({}):
+        model = create_user_model(admin, client_id, user)
+        if model is None:
+            continue
+        users.append(model)
+    return users
+
+
+async def fetch_users_cached() -> UserModel | None:
+    return users_cache.fetch("All", fetch_users)
+
+
 @app.get("/users/me", tags=["users"], summary="Получение информации об авторизованном пользователе")
 async def me(x_user: Annotated[str | None, Header()] = None,
-             x_user_preferred_name: Annotated[str | None, Header()] = None,
-             x_user_email: Annotated[str | None, Header()] = None,
              x_resource_roles: Annotated[str, Header()] = '',
              authorization: Annotated[str | None, Depends(oauth2_scheme)] = None):
     resource_roles = resource_access(x_resource_roles, authorization)
-    user_info = None
-    if os.getenv('FETCH_USER_INFO') == 'ON':
-        user_info = requests.get("https://mydomain.com:8443/realms/sigm-a/protocol/openid-connect/userinfo",
-                                 verify=False,
-                                 headers={'Authorization': "Bearer " + authorization}).json()
-        if 'error' in user_info:
-            logging.warning("Can't get UserInfo: {}".format(user_info["error_description"]))
-            user_info = None
-    admin = keycloak_admin()
-    client_id = admin.get_client_id(KEYCLOAK_LOGIN_CLIENT_ID)
-    user = admin.get_user(x_user)
-    model = create_user_model(admin, client_id, user)
-    model.user_info = user_info
-    return model
+    return await fetch_user_cached(x_user)
 
 
 def create_user_model(admin: KeycloakAdmin, client_id: str, user: dict) -> UserModel | None:
@@ -83,19 +97,13 @@ def create_user_model(admin: KeycloakAdmin, client_id: str, user: dict) -> UserM
                      roles=roles)
 
 
-@app.get("/users/{id}", tags=["users"], summary="Получение информации о пользователе")
-async def get_user(id: str,
+@app.get("/users/{user_id}", tags=["users"], summary="Получение информации о пользователе")
+async def get_user(user_id: str,
                    x_resource_roles: Annotated[str, Header()] = '',
                    authorization: Annotated[str | None, Depends(oauth2_scheme)] = None):
     resource_roles = resource_access(x_resource_roles, authorization)
     if ROLE_ADMIN in resource_roles:
-        try:
-            admin = keycloak_admin()
-            client_id = admin.get_client_id(KEYCLOAK_LOGIN_CLIENT_ID)
-            user = admin.get_user(id)
-            return create_user_model(admin, client_id, user)
-        except Exception as e:
-            logging.exception("Error: {}".format(e))
+        return await fetch_user_cached(user_id)
     return None
 
 
@@ -104,16 +112,5 @@ async def get_users(x_resource_roles: Annotated[str, Header()] = '',
                     authorization: Annotated[str | None, Depends(oauth2_scheme)] = None):
     resource_roles = resource_access(x_resource_roles, authorization)
     if ROLE_ADMIN in resource_roles:
-        try:
-            admin = keycloak_admin()
-            client_id = admin.get_client_id(KEYCLOAK_LOGIN_CLIENT_ID)
-            users = []
-            for user in admin.get_users({}):
-                model = create_user_model(admin, client_id, user)
-                if model is None:
-                    continue
-                users.append(model)
-            return users
-        except Exception as e:
-            logging.exception("Error: {}".format(e))
+        return await fetch_users_cached()
     return []

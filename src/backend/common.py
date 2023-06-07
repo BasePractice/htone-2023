@@ -52,9 +52,13 @@ def resource_access(resource_roles: str, authorization: str) -> list | None:
         message = message + ("=" * padding)
         decode = base64.urlsafe_b64decode(message.encode())
         claims = json.loads(decode.decode('UTF-8'))
-        expr_find = json_expr.find(claims)
-        if len(expr_find) > 0:
-            roles = expr_find[0].value
+
+        if 'role_choise' in claims:
+            roles = [claims["role_choise"]]
+        else:
+            expr_find = json_expr.find(claims)
+            if len(expr_find) > 0:
+                roles = expr_find[0].value
     return roles
 
 

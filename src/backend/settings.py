@@ -26,6 +26,20 @@ KEYCLOAK_USERNAME = os.getenv('KEYCLOAK_USERNAME', 'user_service')
 KEYCLOAK_PASSWORD = os.getenv('KEYCLOAK_PASSWORD', 'user_service')
 KEYCLOAK_LOGIN_CLIENT_ID = os.getenv('KEYCLOAK_LOGIN_CLIENT_ID', 'leader2023')
 
+REDIS_URL = os.getenv('REDIS_URL', '192.168.1.14')
+REDIS_PORT = os.getenv('REDIS_PORT', '6379')
+
+CACHE_USERS_EXPIRE = os.getenv('CACHE_USERS_EXPIRE', '300')
+CACHE_USERS_LIMITS = os.getenv('CACHE_USERS_LIMITS', '10000')
+
+KAFKA_BOOTSTRAP_SERVERS = os.getenv('KAFKA_BOOTSTRAP_SERVERS', 'kafka:9092')
+KAFKA_NOTIFICATIONS_TOPIC = os.getenv('KAFKA_NOTIFICATIONS_TOPIC', 'notifications')
+
+MAIL_HOSTNAME = os.getenv("MAIL_HOSTNAME", "smtp.mail.ru")
+MAIL_USERNAME = os.getenv("MAIL_USERNAME", "sigmas@internet.ru")
+MAIL_PASSWORD = os.getenv("MAIL_PASSWORD", "gE0B7GJms0vn0s7d0kWq")
+MAIL_FROM_ADDRESS = os.getenv("MAIL_FROM_ADDRESS", "sigmas@internet.ru")
+
 LOGLEVEL = os.getenv('LOGLEVEL', 'INFO')
 
 API_GATEWAY_URL = os.getenv("API_GATEWAY_URL", "http://192.168.1.14:8080/api/v1")

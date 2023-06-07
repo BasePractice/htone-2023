@@ -3,6 +3,7 @@ DATABASE_GROUP = 1
 ACCESS_GROUP = 2
 INTERNAL_REFERENCE = 3
 INTERNAL_ERROR = 4
+CLIENT_ERROR_GROUP = 5
 
 
 class ResultCode:
@@ -25,9 +26,13 @@ AUTH_INVALID_SCHEMA_CREATION = ResultCode(AUTH_GROUP, 4, 403, "Не удалос
 
 DATABASE_ENTITY_NOT_FOUND = ResultCode(DATABASE_GROUP, 1, 400, "Объект {} не найден как {}")
 
+INVALID_REQUEST = ResultCode(CLIENT_ERROR_GROUP, 1, 400, "Неверный запрос")
+
 ACCESS_DENIED_RESOURCE = ResultCode(ACCESS_GROUP, 1, 401, "Нет доступа до ресурса")
 
 INTERNAL_REFERENCE_ILLEGAL_RESPONSE = ResultCode(INTERNAL_REFERENCE, 1, 400, "Ошибочный ответ сервиса {}")
 
 INTERNAL_ERROR_UNKNOWN_CODE = ResultCode(INTERNAL_ERROR, 1, 400, "Неизвестный обработчик ошибки.")
 INTERNAL_ERROR_CANT_CREATE_OBJECT = ResultCode(INTERNAL_ERROR, 2, 400, "Не удается создать объект {}")
+INTERNAL_CACHED_OBJECT_NOT_FOUND = ResultCode(INTERNAL_ERROR, 3, 400, "Не удается найти объект {} в кэше")
+INTERNAL_CACHED_EXPIRED_KEY = ResultCode(INTERNAL_ERROR, 4, 400, "Время жизни объекта {} истекло")
