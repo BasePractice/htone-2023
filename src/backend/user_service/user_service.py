@@ -60,6 +60,21 @@ async def fetch_users_cached() -> UserModel | None:
     return users_cache.fetch("All", fetch_users)
 
 
+def search_user(user_email: str) -> UserModel | None:
+    admin = keycloak_admin()
+    client_id = admin.get_client_id(KEYCLOAK_LOGIN_CLIENT_ID)
+    user_id = admin.get_user_id(user_email)
+    model = None
+    if user_id is not None:
+        user = admin.get_user(user_id)
+        model = create_user_model(admin, client_id, user)
+    return model
+
+
+async def search_user_cached(user_email: str) -> UserModel | None:
+    return users_cache.fetch("Email." + user_email, search_user)
+
+
 @app.get("/users/me", tags=["users"], summary="Получение информации об авторизованном пользователе")
 async def me(x_user: Annotated[str | None, Header()] = None,
              x_resource_roles: Annotated[str, Header()] = '',
@@ -79,6 +94,7 @@ def create_user_model(admin: KeycloakAdmin, client_id: str, user: dict) -> UserM
         name = user["email"]
     phone = None
     mid_name = None
+    telegram = None
     if "attributes" in user:
         attributes = user["attributes"]
         phone = attributes["phone"]
@@ -87,6 +103,9 @@ def create_user_model(admin: KeycloakAdmin, client_id: str, user: dict) -> UserM
         mid_name = attributes["mid_name"]
         if len(mid_name) > 0:
             mid_name = mid_name[0]
+        telegram = attributes["telegram"]
+        if len(telegram) > 0:
+            telegram = telegram[0]
     return UserModel(id=user["id"],
                      name=name,
                      first_name=user["firstName"],
@@ -94,6 +113,7 @@ def create_user_model(admin: KeycloakAdmin, client_id: str, user: dict) -> UserM
                      mid_name=mid_name,
                      email=user["email"],
                      phone=phone,
+                     telegram=telegram,
                      roles=roles)
 
 
@@ -105,6 +125,11 @@ async def get_user(user_id: str,
     if ROLE_ADMIN in resource_roles:
         return await fetch_user_cached(user_id)
     return None
+
+
+@app.get("/private/users/email/{user_email}", tags=["users"], summary="Получение информации о пользователе")
+async def get_user_email(user_email: str):
+    return await search_user_cached(user_email)
 
 
 @app.get("/users", tags=["users"], summary="Получение информации о пользователях")

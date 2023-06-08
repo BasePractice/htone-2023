@@ -16,4 +16,5 @@ class UserModel(BaseModel):
     roles: list
     phone: str | None
     email: str | None
+    telegram: str | None
     user_info: str | None
