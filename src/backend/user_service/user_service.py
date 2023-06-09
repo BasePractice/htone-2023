@@ -8,7 +8,7 @@ from api.model.user_service_models import UserModel, RoleModel
 from cache import BasicCache
 from common import resource_access, keycloak_admin, create_error_model, oauth2_scheme
 from settings import OPENAPI_TAGS, OPENAPI_LICENSE, OPENAPI_CONTACT, ROLE_ADMIN, KEYCLOAK_LOGIN_CLIENT_ID, \
-    CACHE_USERS_EXPIRE, CACHE_USERS_LIMITS
+    CACHE_USERS_EXPIRE, CACHE_USERS_LIMITS, ROLE_LANDLORD
 
 app = FastAPI(
     title="UserService",
@@ -124,6 +124,11 @@ async def get_user(user_id: str,
     resource_roles = resource_access(x_resource_roles, authorization)
     if ROLE_ADMIN in resource_roles:
         return await fetch_user_cached(user_id)
+    elif ROLE_LANDLORD in resource_roles:
+        user = await fetch_user_cached(user_id)
+        #TODO: Необходимо проверить что пользователь имеет роль
+        # ROLE_TONANT - иначе ошибка обращения ACCESS_DENIED_RESOURCE
+        return user
     return None
 
 
