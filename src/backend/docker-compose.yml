@@ -275,7 +275,7 @@ services:
       - '8084:8084'
     volumes:
       - ${SOURCES_DIRECTORY}:/app
-    command: [ "/app/notification_service/main.py" ]
+    command: [ "/app/dictionary_service/main.py" ]
   htone-notifications:
     depends_on:
       kafka:
