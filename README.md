@@ -26,27 +26,16 @@
 Разработайте сервис, который позволит горожанам и бизнес-сообществу бронировать креативные площадки Москвы, а собственникам вносить данные о площадках в формате презентации и заключать электронные договоры онлайн
 
 ## ПРИМЕРЫ ИНТЕРФЕЙСОВ РЕШЕНИЯ
+### Размещение площадок
+![image](https://github.com/BasePractice/htone-2023/assets/46163949/ec410e9d-eae8-4a57-9605-f801ef1e8140)
 
-Размещение площадок:
-![image](https://github.com/BasePractice/htone-2023/assets/46163949/abf7a217-00d9-4bc0-bfc9-ae8a10b73076)
-
-Новости:
+### Новости
 ![image](https://github.com/BasePractice/htone-2023/assets/46163949/ab4c98ae-de36-4822-9957-eeb1f61a553e)
 
-
-Вход в систему:
-![image](https://github.com/BasePractice/htone-2023/assets/46163949/78545c56-774a-4dc4-82d8-30eed1f467e6)
-![image](https://github.com/BasePractice/htone-2023/assets/46163949/9ce56ec1-0bb6-4e24-bd47-d3c91b952a17)
-![image](https://github.com/BasePractice/htone-2023/assets/46163949/5ce386dd-5075-4fc4-a1f7-6474d5406979)
-С адаптацией под мобильные устройства:
-![image](https://github.com/BasePractice/htone-2023/assets/46163949/bbc2c9d8-5443-4b8e-b814-604b7bfdc0ca)
-
-
-Альтернативная аутентификация через mos.ru:
+### Вход в систему с возможностью аутентификации через mos.ru
 ![image](https://github.com/BasePractice/htone-2023/assets/46163949/344c8672-1468-4277-8633-62f39c402fa6)
 
-
-Самостоятельная регистрация:
+### Самостоятельная регистрация
 ![image](https://github.com/BasePractice/htone-2023/assets/46163949/2dae26b7-6e3c-4004-b4e4-4df34b571fc0)
 
 ## АРХИТЕКТУРА РЕШЕНИЯ
